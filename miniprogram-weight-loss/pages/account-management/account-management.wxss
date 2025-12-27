@@ -1,0 +1,171 @@
+/* pages/account-management/account-management.wxss */
+.login-status-card {
+  background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+  border-left: 4rpx solid #a8d08d;
+}
+
+.status-header {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.status-icon {
+  font-size: 48rpx;
+}
+
+.status-info {
+  flex: 1;
+}
+
+.status-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.status-desc {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.account-info {
+  background: white;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-top: 20rpx;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 15rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.info-value {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.action-button {
+  width: 100%;
+  padding: 25rpx;
+  border-radius: 12rpx;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15rpx;
+  margin-bottom: 15rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.action-button.primary {
+  background: linear-gradient(135deg, #a8d08d 0%, #8bc34a 100%);
+  color: white;
+}
+
+.action-button.secondary {
+  background: white;
+  color: #a8d08d;
+  border: 2rpx solid #a8d08d;
+}
+
+.action-button.danger {
+  background: #ff4444;
+  color: white;
+}
+
+.action-button.danger-outline {
+  background: white;
+  color: #ff4444;
+  border: 2rpx solid #ff4444;
+}
+
+.button-icon {
+  font-size: 32rpx;
+}
+
+.button-text {
+  font-size: 30rpx;
+}
+
+.tip-text {
+  margin-top: 30rpx;
+  padding: 20rpx;
+  background: #fff8e1;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  color: #f57c00;
+  line-height: 1.8;
+}
+
+.tip-item {
+  margin-top: 10rpx;
+}
+
+.section-title {
+  font-size: 28rpx;
+  color: #999;
+  margin-bottom: 20rpx;
+  font-weight: 500;
+}
+
+.danger-zone {
+  border: 2rpx solid #ffebee;
+  background: #fff5f5;
+}
+
+.danger-title {
+  color: #ff4444;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 25rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+.list-icon {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+}
+
+.list-content {
+  flex: 1;
+}
+
+.list-title {
+  font-size: 30rpx;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+.list-desc {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.arrow {
+  font-size: 32rpx;
+  color: #ccc;
+}

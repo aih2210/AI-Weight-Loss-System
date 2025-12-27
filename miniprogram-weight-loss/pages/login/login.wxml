@@ -1,0 +1,194 @@
+<!--pages/login/login.wxml-->
+<view class="container">
+  <!-- Logo区域 -->
+  <view class="logo-section">
+    <view class="logo">🏃‍♀️</view>
+    <view class="app-name">AI减重助手</view>
+    <view class="app-slogan">科学减重，智能陪伴</view>
+  </view>
+
+  <!-- Tab切换 -->
+  <view class="tab-bar">
+    <view 
+      class="tab-item {{activeTab === 'login' ? 'active' : ''}}"
+      bindtap="switchTab"
+      data-tab="login"
+    >
+      <view class="tab-icon">🔐</view>
+      <view class="tab-text">登录账号</view>
+    </view>
+    <view 
+      class="tab-item {{activeTab === 'register' ? 'active' : ''}}"
+      bindtap="switchTab"
+      data-tab="register"
+    >
+      <view class="tab-icon">✨</view>
+      <view class="tab-text">注册账号</view>
+    </view>
+  </view>
+
+  <!-- 登录表单 -->
+  <view class="form-container" wx:if="{{activeTab === 'login'}}">
+    <view class="form-card">
+      <view class="form-item">
+        <view class="form-label">
+          <text class="label-icon">👤</text>
+          <text>用户名</text>
+        </view>
+        <input 
+          class="form-input"
+          placeholder="请输入用户名"
+          value="{{loginUsername}}"
+          bindinput="onLoginUsernameInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">
+          <text class="label-icon">🔒</text>
+          <text>密码</text>
+        </view>
+        <input 
+          class="form-input"
+          type="password"
+          placeholder="请输入密码"
+          value="{{loginPassword}}"
+          bindinput="onLoginPasswordInput"
+        />
+      </view>
+
+      <view class="form-options">
+        <view class="remember-me" bindtap="toggleRememberMe">
+          <view class="checkbox {{rememberMe ? 'checked' : ''}}">
+            <text wx:if="{{rememberMe}}">✓</text>
+          </view>
+          <text class="option-text">记住我</text>
+        </view>
+        <view class="forgot-password" bindtap="handleForgotPassword">
+          <text class="link-text">忘记密码？</text>
+        </view>
+      </view>
+
+      <button 
+        class="submit-button login-button"
+        bindtap="handleLogin"
+        disabled="{{isLoading}}"
+      >
+        {{isLoading ? '登录中...' : '登录'}}
+      </button>
+
+      <view class="form-footer">
+        <text class="footer-text">还没有账号？</text>
+        <text class="link-text" bindtap="switchTab" data-tab="register">立即注册</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 注册表单 -->
+  <view class="form-container" wx:if="{{activeTab === 'register'}}">
+    <view class="form-card">
+      <view class="form-item">
+        <view class="form-label">
+          <text class="label-icon">👤</text>
+          <text>用户名</text>
+          <text class="required">*</text>
+        </view>
+        <input 
+          class="form-input"
+          placeholder="3-20个字符"
+          value="{{registerUsername}}"
+          bindinput="onRegisterUsernameInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">
+          <text class="label-icon">📧</text>
+          <text>邮箱</text>
+          <text class="required">*</text>
+        </view>
+        <input 
+          class="form-input"
+          type="text"
+          placeholder="用于找回密码"
+          value="{{registerEmail}}"
+          bindinput="onRegisterEmailInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">
+          <text class="label-icon">👨</text>
+          <text>昵称</text>
+          <text class="optional">（可选）</text>
+        </view>
+        <input 
+          class="form-input"
+          placeholder="显示名称"
+          value="{{registerName}}"
+          bindinput="onRegisterNameInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">
+          <text class="label-icon">🔒</text>
+          <text>密码</text>
+          <text class="required">*</text>
+        </view>
+        <input 
+          class="form-input"
+          type="password"
+          placeholder="至少6个字符"
+          value="{{registerPassword}}"
+          bindinput="onRegisterPasswordInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">
+          <text class="label-icon">🔐</text>
+          <text>确认密码</text>
+          <text class="required">*</text>
+        </view>
+        <input 
+          class="form-input"
+          type="password"
+          placeholder="再次输入密码"
+          value="{{registerPasswordConfirm}}"
+          bindinput="onRegisterPasswordConfirmInput"
+        />
+      </view>
+
+      <button 
+        class="submit-button register-button"
+        bindtap="handleRegister"
+        disabled="{{isLoading}}"
+      >
+        {{isLoading ? '注册中...' : '注册账号'}}
+      </button>
+
+      <view class="form-footer">
+        <text class="footer-text">已有账号？</text>
+        <text class="link-text" bindtap="switchTab" data-tab="login">立即登录</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 跳过登录 -->
+  <view class="skip-section">
+    <view class="skip-button" bindtap="skipLogin">
+      <text class="skip-text">暂时跳过，稍后登录</text>
+      <text class="skip-arrow">→</text>
+    </view>
+    <view class="skip-tip">💡 登录后可同步数据到云端</view>
+  </view>
+
+  <!-- 服务条款 -->
+  <view class="terms-section">
+    <text class="terms-text">注册即表示同意</text>
+    <text class="terms-link">《用户协议》</text>
+    <text class="terms-text">和</text>
+    <text class="terms-link">《隐私政策》</text>
+  </view>
+</view>

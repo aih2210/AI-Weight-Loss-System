@@ -1,0 +1,65 @@
+<!--pages/ai-assistant/ai-assistant.wxml-->
+<view class="container">
+  <!-- 顶部状态栏 -->
+  <view class="status-bar">
+    <view class="status-item">
+      <text class="status-icon">{{useRealAI && apiKey ? '🤖' : '💬'}}</text>
+      <text class="status-text">{{useRealAI && apiKey ? '通义千问AI' : '本地知识库'}}</text>
+    </view>
+    <view class="status-actions">
+      <view class="status-btn" bindtap="showApiGuide">❓</view>
+      <view class="status-btn" bindtap="setApiKey">⚙️</view>
+    </view>
+  </view>
+
+  <!-- 聊天消息列表 -->
+  <view class="messages-container">
+    <view class="message-item {{item.role === 'AI' ? 'ai-message' : 'user-message'}}" wx:for="{{messages}}" wx:key="id">
+      <view class="message-avatar">
+        {{item.role === 'AI' ? '🤖' : '👤'}}
+      </view>
+      <view class="message-content">
+        <view class="message-text">{{item.content}}</view>
+        <view class="message-time">{{item.time}}</view>
+      </view>
+    </view>
+    
+    <!-- 正在输入提示 -->
+    <view wx:if="{{isTyping}}" class="typing-indicator">
+      <view class="message-avatar">🤖</view>
+      <view class="typing-dots">
+        <view class="dot"></view>
+        <view class="dot"></view>
+        <view class="dot"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷问题 -->
+  <view wx:if="{{messages.length <= 1}}" class="quick-questions">
+    <view class="quick-title">💡 快速提问</view>
+    <view class="quick-grid">
+      <view class="quick-item" wx:for="{{quickQuestions}}" wx:key="index" bindtap="quickAsk" data-question="{{item}}">
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 输入框 -->
+  <view class="input-container">
+    <view class="input-box">
+      <input class="message-input" placeholder="输入你的问题..." value="{{inputText}}" bindinput="onInputChange" confirm-type="send" bindconfirm="sendMessage" disabled="{{isTyping}}" />
+      <button class="send-button" bindtap="sendMessage" disabled="{{isTyping || !inputText}}">
+        {{isTyping ? '...' : '发送'}}
+      </button>
+    </view>
+    <view class="action-bar">
+      <view class="action-item" bindtap="clearHistory">
+        🗑️ 清空记录
+      </view>
+      <view class="action-item" bindtap="toggleAIMode">
+        🔄 {{useRealAI ? '切换到本地' : '切换到AI'}}
+      </view>
+    </view>
+  </view>
+</view>

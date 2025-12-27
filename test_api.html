@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI减重系统 - API测试</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .api-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .link {
+            display: inline-block;
+            margin: 10px 0;
+            padding: 10px 15px;
+            background: #e7f3ff;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #0066cc;
+        }
+        .link:hover {
+            background: #cce5ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏃‍♂️ AI智能减重系统</h1>
+        
+        <div id="status" class="status">正在检测服务状态...</div>
+        
+        <div class="api-section">
+            <h2>📡 服务地址</h2>
+            <a href="http://localhost:8000" target="_blank" class="link">
+                🏠 主页: http://localhost:8000
+            </a><br>
+            <a href="http://localhost:8000/docs" target="_blank" class="link">
+                📚 API文档: http://localhost:8000/docs
+            </a><br>
+            <a href="http://localhost:8000/health" target="_blank" class="link">
+                ❤️ 健康检查: http://localhost:8000/health
+            </a>
+        </div>
+
+        <div class="api-section">
+            <h2>🧪 快速测试</h2>
+            <button onclick="testHealth()">测试健康检查</button>
+            <button onclick="testRoot()">测试主页</button>
+            <button onclick="testMetabolism()">测试代谢预测</button>
+            <button onclick="testExercise()">测试运动计划</button>
+            
+            <h3>响应结果：</h3>
+            <pre id="result">点击上方按钮测试API...</pre>
+        </div>
+
+        <div class="api-section">
+            <h2>📖 核心功能</h2>
+            <ul>
+                <li><strong>个性化代谢建模</strong> - 预测基础代谢率和体重变化趋势</li>
+                <li><strong>智能饮食顾问</strong> - 食物识别、食谱生成、情绪管理</li>
+                <li><strong>自适应运动教练</strong> - 个性化运动计划和依从性优化</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // 页面加载时自动检测服务状态
+        window.onload = function() {
+            checkServerStatus();
+        };
+
+        async function checkServerStatus() {
+            const statusDiv = document.getElementById('status');
+            try {
+                const response = await fetch('http://localhost:8000/health');
+                const data = await response.json();
+                
+                if (data.status === 'healthy') {
+                    statusDiv.className = 'status success';
+                    statusDiv.innerHTML = '✅ 服务运行正常！后端已成功启动。';
+                } else {
+                    statusDiv.className = 'status error';
+                    statusDiv.innerHTML = '⚠️ 服务状态异常';
+                }
+            } catch (error) {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = '❌ 无法连接到服务器。请确保后端服务已启动。<br>错误: ' + error.message;
+            }
+        }
+
+        async function testHealth() {
+            await makeRequest('http://localhost:8000/health');
+        }
+
+        async function testRoot() {
+            await makeRequest('http://localhost:8000/');
+        }
+
+        async function testMetabolism() {
+            await makeRequest('http://localhost:8000/api/metabolism/predict-bmr', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user_id: "test_user",
+                    weight: 70,
+                    height: 170,
+                    age: 30,
+                    gender: "male"
+                })
+            });
+        }
+
+        async function testExercise() {
+            await makeRequest('http://localhost:8000/api/exercise/generate-plan', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user_id: "test_user",
+                    fitness_level: "beginner",
+                    preferences: ["cardio"],
+                    available_time: 30,
+                    equipment: []
+                })
+            });
+        }
+
+        async function makeRequest(url, options = {}) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = '请求中...';
+            
+            try {
+                const response = await fetch(url, options);
+                const data = await response.json();
+                resultDiv.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                resultDiv.textContent = '错误: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

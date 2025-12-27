@@ -1,0 +1,163 @@
+<!--pages/dining-assistant/dining-assistant.wxml-->
+<view class="container">
+  <!-- 位置信息 -->
+  <view class="card location-card">
+    <view class="card-title">📍 当前位置</view>
+    <view wx:if="{{location}}" class="location-info">
+      <view class="location-name">{{locationName || '已获取位置'}}</view>
+      <view class="location-coords">经度: {{location.longitude}} | 纬度: {{location.latitude}}</view>
+      <view class="location-actions">
+        <button class="mini-btn" bindtap="getLocation" size="mini">🔄 刷新位置</button>
+        <button class="mini-btn" bindtap="viewFavorites" size="mini">⭐ 收藏({{favoriteRestaurants.length}})</button>
+      </view>
+    </view>
+    <button wx:else class="btn-location" bindtap="getLocation">
+      📍 获取位置
+    </button>
+  </view>
+
+  <!-- 卡路里预算 -->
+  <view class="card budget-card">
+    <view class="budget-header">
+      <view class="budget-title">💰 今日剩余预算</view>
+      <view class="budget-value {{caloriesBudget <= 0 ? 'budget-warning' : ''}}">
+        {{caloriesBudget}} 卡
+      </view>
+    </view>
+    <view wx:if="{{caloriesBudget <= 0}}" class="budget-tip">
+      ⚠️ 预算已用完，建议选择低卡餐厅
+    </view>
+  </view>
+
+  <!-- 餐次选择 -->
+  <view class="card">
+    <view class="form-item">
+      <view class="form-label">用餐类型</view>
+      <picker mode="selector" range="{{mealTypes}}" value="{{mealType}}" bindchange="onMealTypeChange">
+        <view class="picker-view">{{mealTypes[mealType]}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 搜索按钮 -->
+  <button class="btn-primary" bindtap="searchNearbyRestaurants" disabled="{{!location || isSearching}}">
+    {{isSearching ? '🔍 搜索中...' : '🔍 搜索附近健康餐厅'}}
+  </button>
+
+  <!-- 筛选和排序 -->
+  <view wx:if="{{location}}" class="card filter-card">
+    <view class="filter-row">
+      <view class="filter-item">
+        <view class="filter-label">搜索半径</view>
+        <picker mode="selector" range="{{[1, 2, 3, 5]}}" range-key="" value="{{searchRadius - 1}}" bindchange="changeSearchRadius">
+          <view class="picker-view">{{searchRadius}}公里</view>
+        </picker>
+      </view>
+      
+      <view class="filter-item">
+        <view class="filter-label">餐厅类型</view>
+        <picker mode="selector" range="{{['全部', '轻食', '便当', '日料', '中餐', '火锅', '快餐', '素食']}}" value="{{filterType === 'all' ? 0 : 1}}" bindchange="changeFilterType">
+          <view class="picker-view">
+            {{filterType === 'all' ? '全部' : filterType}}
+          </view>
+        </picker>
+      </view>
+    </view>
+    
+    <view class="filter-row">
+      <view class="filter-item full-width">
+        <view class="filter-label">排序方式</view>
+        <picker mode="selector" range="{{['智能推荐', '距离优先', '健康优先', '评分优先']}}" range-key="" value="{{sortBy === 'recommend' ? 0 : sortBy === 'distance' ? 1 : sortBy === 'health' ? 2 : 3}}" bindchange="changeSortBy">
+          <view class="picker-view">
+            {{sortBy === 'recommend' ? '智能推荐' : sortBy === 'distance' ? '距离优先' : sortBy === 'health' ? '健康优先' : '评分优先'}}
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+
+  <!-- 餐厅列表 -->
+  <view wx:if="{{restaurants.length > 0}}" class="card">
+    <view class="card-title">🍽️ 推荐餐厅 ({{restaurants.length}})</view>
+    
+    <view class="restaurant-list">
+      <view 
+        class="restaurant-item {{selectedRestaurant && selectedRestaurant.id === item.id ? 'selected' : ''}}" 
+        wx:for="{{restaurants}}" 
+        wx:key="id"
+        bindtap="selectRestaurant"
+        data-restaurant="{{item}}">
+        
+        <view class="restaurant-header">
+          <view class="restaurant-name">
+            {{item.isFavorite ? '⭐ ' : ''}}{{item.name}}
+          </view>
+          <view class="restaurant-score">{{item.score}}分</view>
+        </view>
+        
+        <view wx:if="{{item.address}}" class="restaurant-address">
+          📍 {{item.address}}
+        </view>
+        
+        <view class="restaurant-info">
+          <view class="info-item">📍 {{item.distance}}km</view>
+          <view class="info-item">⭐ {{item.rating}}</view>
+          <view class="info-item">🔥 {{item.avgCalories}}卡</view>
+        </view>
+        
+        <view class="restaurant-tags">
+          <view class="tag" wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">{{tag}}</view>
+        </view>
+        
+        <view class="health-bar">
+          <view class="health-label">健康指数</view>
+          <view class="health-progress">
+            <view class="health-fill" style="width: {{item.healthScore}}%; background: {{item.healthScore >= 80 ? '#4caf50' : item.healthScore >= 60 ? '#ff9800' : '#f44336'}}"></view>
+          </view>
+          <view class="health-value">{{item.healthScore}}</view>
+        </view>
+        
+        <view class="restaurant-actions">
+          <button class="action-btn" bindtap="openMap" data-restaurant="{{item}}" catchtap="openMap">
+            🗺️ 导航
+          </button>
+          <button class="action-btn primary" bindtap="selectRestaurant" data-restaurant="{{item}}">
+            查看详情
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 餐后记录按钮 -->
+  <button wx:if="{{selectedRestaurant}}" class="btn-secondary" bindtap="recordMeal">
+    📝 餐后记录
+  </button>
+
+  <!-- 使用说明 -->
+  <view class="card tips-card">
+    <view class="card-title">💡 功能说明</view>
+    <view class="tips-text">
+      1. 点击"获取位置"允许访问位置信息\n
+      2. 选择用餐类型（早餐/午餐/晚餐）\n
+      3. 搜索附近健康餐厅\n
+      4. 查看餐厅详情和推荐菜品\n
+      5. 获取餐前准备建议\n
+      6. 用餐后记录摄入\n
+      7. 查看餐后调整方案
+    </view>
+  </view>
+
+  <!-- 健康提示 -->
+  <view class="card health-tips-card">
+    <view class="card-title">🌟 聚餐健康贴士</view>
+    <view class="tips-list">
+      <view class="tip-item">✅ 餐前喝水增加饱腹感</view>
+      <view class="tip-item">✅ 选择清淡烹饪方式</view>
+      <view class="tip-item">✅ 多吃蔬菜和蛋白质</view>
+      <view class="tip-item">✅ 控制主食和油脂</view>
+      <view class="tip-item">✅ 细嚼慢咽，吃到7分饱</view>
+      <view class="tip-item">✅ 餐后散步助消化</view>
+    </view>
+  </view>
+</view>

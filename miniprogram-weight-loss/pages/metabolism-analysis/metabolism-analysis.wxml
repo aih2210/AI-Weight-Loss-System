@@ -1,0 +1,322 @@
+<!--pages/metabolism-analysis/metabolism-analysis.wxml-->
+<view class="container">
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="loading-container">
+    <view class="loading-icon">🔄</view>
+    <view class="loading-text">AI分析中...</view>
+  </view>
+
+  <!-- 分析报告 -->
+  <view wx:else>
+    <!-- 标题卡片 -->
+    <view class="card header-card">
+      <view class="header-title">🧠 代谢率分析报告</view>
+      <view class="header-subtitle">基于科学公式与真实数据的智能分析</view>
+      <view class="header-time">{{report.formattedTime}}</view>
+    </view>
+
+    <!-- 摘要卡片 -->
+    <view class="card summary-card">
+      <view class="card-title">📋 分析摘要</view>
+      <view class="summary-list">
+        <view class="summary-item" wx:for="{{report.summary}}" wx:key="index">
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 代谢数据卡片 -->
+    <view class="card metabolism-card">
+      <view class="card-title">🔥 代谢率数据</view>
+      
+      <view class="metabolism-grid">
+        <view class="metabolism-item">
+          <view class="metabolism-label">当前BMR</view>
+          <view class="metabolism-value primary">{{report.metabolism.currentBMR}}</view>
+          <view class="metabolism-unit">kcal/天</view>
+          <view class="metabolism-note">Mifflin-St Jeor公式</view>
+        </view>
+        
+        <view class="metabolism-item">
+          <view class="metabolism-label">理论TDEE</view>
+          <view class="metabolism-value info">{{report.metabolism.currentTDEE}}</view>
+          <view class="metabolism-unit">kcal/天</view>
+          <view class="metabolism-note">BMR × 活动系数</view>
+        </view>
+        
+        <view class="metabolism-item" wx:if="{{report.metabolism.hasActualTDEE}}">
+          <view class="metabolism-label">实际TDEE</view>
+          <view class="metabolism-value success">{{report.metabolism.actualTDEE}}</view>
+          <view class="metabolism-unit">kcal/天</view>
+          <view class="metabolism-note">基于真实数据</view>
+        </view>
+        
+        <view class="metabolism-item">
+          <view class="metabolism-label">预测BMR</view>
+          <view class="metabolism-value {{report.metabolism.changeRate < 0 ? 'warning' : 'success'}}">
+            {{report.metabolism.predictedBMR}}
+          </view>
+          <view class="metabolism-unit">kcal/天</view>
+          <view class="metabolism-note">7天后预测</view>
+        </view>
+      </view>
+      
+      <!-- TDEE对比 -->
+      <view wx:if="{{report.metabolism.hasActualTDEE}}" class="tdee-comparison">
+        <view class="comparison-title">📊 TDEE对比分析</view>
+        <view class="comparison-content">
+          <view class="comparison-item">
+            <view class="comparison-label">理论值与实际值差异</view>
+            <view class="comparison-value {{report.metabolism.tdeeDifference > 0 ? 'higher' : 'lower'}}">
+              {{report.metabolism.tdeeDifference > 0 ? '+' : ''}}{{report.metabolism.tdeeDifference}} kcal ({{report.metabolism.tdeeDifferencePercent}}%)
+            </view>
+          </view>
+          <view class="comparison-note">
+            {{report.metabolism.tdeeDifference > 100 ? '💡 实际代谢高于理论值，可能运动量较大或代谢较快' : 
+              report.metabolism.tdeeDifference < -100 ? '💡 实际代谢低于理论值，可能活动量较少或代谢适应' : 
+              '✅ 理论值与实际值接近，数据准确'}}
+          </view>
+          <view class="comparison-confidence">
+            <text>数据置信度: {{report.metabolism.actualTDEEConfidence}}%</text>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 代谢变化 -->
+      <view class="metabolism-change">
+        <view class="change-title">📉 代谢变化趋势</view>
+        <view class="change-content">
+          <view class="change-item">
+            <view class="change-label">变化率</view>
+            <view class="change-value {{report.metabolism.changeRate < -0.05 ? 'danger' : report.metabolism.changeRate < 0 ? 'warning' : 'success'}}">
+              {{report.metabolism.changeRatePercent}}%
+            </view>
+          </view>
+          <view class="change-note">
+            {{report.metabolism.changeRate < -0.08 ? '⚠️ 代谢下降明显，建议调整减重策略' : 
+              report.metabolism.changeRate < -0.04 ? '📊 代谢轻度下降，属于正常范围' : 
+              report.metabolism.changeRate < 0 ? '✅ 代谢保持稳定' : 
+              '🎉 代谢有所提升'}}
+          </view>
+        </view>
+      </view>
+
+      <view class="confidence-bar">
+        <view class="confidence-label">预测置信度</view>
+        <view class="confidence-progress">
+          <view class="confidence-fill" style="width: {{report.metabolism.confidence * 100}}%"></view>
+        </view>
+        <view class="confidence-value">{{report.metabolism.confidencePercent}}%</view>
+      </view>
+    </view>
+
+    <!-- 体重趋势预测 -->
+    <view class="card trend-card">
+      <view class="card-title">📈 未来7天体重趋势预测</view>
+      
+      <view class="trend-summary">
+        <view class="trend-summary-item">
+          <view class="trend-label">当前体重</view>
+          <view class="trend-value">{{report.weightTrend.summary.currentWeight}}kg</view>
+        </view>
+        <view class="trend-arrow">→</view>
+        <view class="trend-summary-item">
+          <view class="trend-label">预测体重</view>
+          <view class="trend-value {{report.weightTrend.summary.totalChange < 0 ? 'success' : 'warning'}}">
+            {{report.weightTrend.summary.predictedWeight}}kg
+          </view>
+        </view>
+        <view class="trend-summary-item">
+          <view class="trend-label">预计变化</view>
+          <view class="trend-value {{report.weightTrend.summary.totalChange < 0 ? 'success' : 'warning'}}">
+            {{report.weightTrend.summary.totalChange > 0 ? '+' : ''}}{{report.weightTrend.summary.totalChange}}kg
+          </view>
+        </view>
+      </view>
+
+      <view class="trend-chart">
+        <view class="chart-title">每日预测</view>
+        <view class="chart-list">
+          <view class="chart-item" wx:for="{{report.weightTrend.predictions}}" wx:key="day">
+            <view class="chart-day">第{{item.day}}天</view>
+            <view class="chart-date">{{item.date}}</view>
+            <view class="chart-weight">{{item.weight}}kg</view>
+            <view class="chart-change {{item.weightChange < 0 ? 'down' : 'up'}}">
+              {{item.weightChange > 0 ? '+' : ''}}{{item.weightChange}}kg
+            </view>
+            <view class="chart-confidence">置信度 {{item.confidencePercent}}%</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="trend-assumptions">
+        <view class="assumptions-title">📋 预测假设</view>
+        <view class="assumptions-grid">
+          <view class="assumption-item">
+            <view class="assumption-label">平均摄入</view>
+            <view class="assumption-value">{{report.weightTrend.assumptions.avgCalorieIntake}} kcal</view>
+          </view>
+          <view class="assumption-item">
+            <view class="assumption-label">平均运动</view>
+            <view class="assumption-value">{{report.weightTrend.assumptions.avgExerciseCalories}} kcal</view>
+          </view>
+          <view class="assumption-item">
+            <view class="assumption-label">起始BMR</view>
+            <view class="assumption-value">{{report.weightTrend.assumptions.startBMR}} kcal</view>
+          </view>
+          <view class="assumption-item">
+            <view class="assumption-label">预测BMR</view>
+            <view class="assumption-value">{{report.weightTrend.assumptions.endBMR}} kcal</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 趋势建议 -->
+    <view wx:if="{{report.weightTrend.recommendations.length > 0}}" class="card recommendations-card">
+      <view class="card-title">💡 趋势调整建议</view>
+      <view class="recommendations-list">
+        <view 
+          class="recommendation-item priority-{{item.priority}} type-{{item.type}}" 
+          wx:for="{{report.weightTrend.recommendations}}" 
+          wx:key="title"
+          bindtap="viewRecommendation"
+          data-rec="{{item}}">
+          <view class="rec-header">
+            <view class="rec-icon">
+              {{item.type === 'diet' ? '🍽️' : item.type === 'exercise' ? '🏃' : item.type === 'warning' ? '⚠️' : item.type === 'success' ? '✅' : '💡'}}
+            </view>
+            <view class="rec-title">{{item.title}}</view>
+            <view class="rec-priority">{{item.priority === 'high' ? '重要' : item.priority === 'medium' ? '建议' : '参考'}}</view>
+          </view>
+          <view class="rec-content">{{item.content}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 平台期检测卡片 -->
+    <view class="card plateau-card {{report.plateau.detected ? 'plateau-detected' : ''}}">
+      <view class="card-title">
+        {{report.plateau.detected ? '🔴 平台期预警' : '✅ 进展正常'}}
+      </view>
+      
+      <view wx:if="{{report.plateau.detected}}" class="plateau-info">
+        <view class="plateau-item">
+          <view class="plateau-label">持续时间</view>
+          <view class="plateau-value">{{report.plateau.duration}} 天</view>
+        </view>
+        <view class="plateau-item">
+          <view class="plateau-label">检测置信度</view>
+          <view class="plateau-value">{{report.plateau.confidencePercent}}%</view>
+        </view>
+      </view>
+      
+      <view wx:else class="plateau-normal">
+        <text>🎉 当前减重进展良好，继续保持！</text>
+      </view>
+    </view>
+
+    <!-- 影响因素 -->
+    <view wx:if="{{report.metabolism.factors && report.metabolism.factors.length > 0}}" class="card factors-card">
+      <view class="card-title">📊 影响因素分析</view>
+      <view class="factors-list">
+        <view class="factor-item {{item.impact}}" wx:for="{{report.metabolism.factors}}" wx:key="name">
+          <view class="factor-icon">
+            {{item.impact === 'high' ? '🔴' : item.impact === 'medium' ? '🟡' : '🟢'}}
+          </view>
+          <view class="factor-content">
+            <view class="factor-name">{{item.name}}</view>
+            <view class="factor-value">影响程度: {{item.impact === 'high' ? '高' : item.impact === 'medium' ? '中' : '低'}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 突破建议 -->
+    <view wx:if="{{report.plateau.detected && report.plateau.recommendations.length > 0}}" class="card recommendations-card">
+      <view class="card-title">💡 突破平台期建议</view>
+      <view class="recommendations-list">
+        <view 
+          class="recommendation-item priority-{{item.priority}}" 
+          wx:for="{{report.plateau.recommendations}}" 
+          wx:key="title"
+          bindtap="viewRecommendation"
+          data-rec="{{item}}">
+          <view class="rec-header">
+            <view class="rec-icon">
+              {{item.type === 'diet' ? '🍽️' : item.type === 'exercise' ? '🏃' : '💡'}}
+            </view>
+            <view class="rec-title">{{item.title}}</view>
+            <view class="rec-priority">{{item.priority === 'high' ? '重要' : item.priority === 'medium' ? '建议' : '参考'}}</view>
+          </view>
+          <view class="rec-content">{{item.content}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 详细数据 -->
+    <view class="card detail-card">
+      <view class="detail-header" bindtap="toggleDetail">
+        <view class="card-title">📈 详细数据</view>
+        <view class="toggle-icon">{{showDetail ? '▼' : '▶'}}</view>
+      </view>
+      
+      <view wx:if="{{showDetail}}" class="detail-content">
+        <view class="detail-item">
+          <view class="detail-label">数据来源</view>
+          <view class="detail-value">最近30天记录</view>
+        </view>
+        <view class="detail-item">
+          <view class="detail-label">分析模型</view>
+          <view class="detail-value">梯度提升树集成</view>
+        </view>
+        <view class="detail-item">
+          <view class="detail-label">特征数量</view>
+          <view class="detail-value">10个关键特征</view>
+        </view>
+        <view class="detail-item">
+          <view class="detail-label">模型版本</view>
+          <view class="detail-value">v1.0</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-buttons">
+      <button class="action-btn primary" bindtap="refreshAnalysis">
+        🔄 刷新分析
+      </button>
+      <button class="action-btn secondary" bindtap="shareReport">
+        📤 分享报告
+      </button>
+    </view>
+
+    <!-- 快捷操作 -->
+    <view class="card quick-actions-card">
+      <view class="card-title">⚡ 快捷操作</view>
+      <view class="quick-actions">
+        <view class="quick-action-item" bindtap="goToWeightUpdate">
+          <view class="quick-action-icon">⚖️</view>
+          <view class="quick-action-text">记录体重</view>
+        </view>
+        <view class="quick-action-item" bindtap="goToDiet">
+          <view class="quick-action-icon">🍽️</view>
+          <view class="quick-action-text">记录饮食</view>
+        </view>
+        <view class="quick-action-item" bindtap="goToExercise">
+          <view class="quick-action-icon">🏃</view>
+          <view class="quick-action-text">记录运动</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 说明 -->
+    <view class="card info-card">
+      <view class="info-title">ℹ️ 关于分析</view>
+      <view class="info-text">
+        本分析基于机器学习算法，综合考虑体重变化、饮食摄入、运动消耗等多个因素，预测代谢率变化趋势。
+        建议每周更新数据以获得更准确的预测。
+      </view>
+    </view>
+  </view>
+</view>

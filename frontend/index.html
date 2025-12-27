@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI减重系统 - 首页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+
+        /* 顶部导航栏 */
+        .navbar {
+            background: linear-gradient(135deg, #a8d08d 0%, #8bc34a 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navbar-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .user-name {
+            font-size: 14px;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #a8d08d;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-logout {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 6px 15px;
+            font-size: 13px;
+        }
+
+        /* 主内容区 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* 欢迎卡片 */
+        .welcome-card {
+            background: linear-gradient(135deg, #a8d08d 0%, #8bc34a 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(168, 208, 141, 0.3);
+        }
+
+        .welcome-title {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .welcome-subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* 功能网格 */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* 未登录提示 */
+        .login-prompt {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-prompt-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .login-prompt-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .login-prompt-text {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .login-prompt-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn-large {
+            padding: 15px 40px;
+            font-size: 16px;
+            border-radius: 25px;
+        }
+
+        /* 加载动画 */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #a8d08d;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .welcome-card {
+                padding: 30px 20px;
+            }
+
+            .welcome-title {
+                font-size: 24px;
+            }
+
+            .welcome-subtitle {
+                font-size: 16px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .login-prompt {
+                padding: 40px 20px;
+            }
+
+            .login-prompt-buttons {
+                flex-direction: column;
+            }
+
+            .btn-large {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span>🌟</span>
+            <span>AI减重系统</span>
+        </div>
+        <div class="navbar-user" id="navbar-user">
+            <!-- 动态加载 -->
+        </div>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="container">
+        <div id="content">
+            <!-- 加载中 -->
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>加载中...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8000/api';
+
+        // 检查登录状态
+        async function checkLoginStatus() {
+            const token = localStorage.getItem('access_token');
+            
+            if (!token) {
+                showLoginPrompt();
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const user = await response.json();
+                    showUserContent(user);
+                } else {
+                    // Token无效，清除并显示登录提示
+                    localStorage.removeItem('access_token');
+                    showLoginPrompt();
+                }
+            } catch (error) {
+                console.error('检查登录状态失败:', error);
+                showLoginPrompt();
+            }
+        }
+
+        // 显示未登录提示
+        function showLoginPrompt() {
+            const navbarUser = document.getElementById('navbar-user');
+            navbarUser.innerHTML = `
+                <button class="btn btn-secondary" onclick="goToLogin()">登录</button>
+                <button class="btn btn-primary" onclick="goToRegister()">注册</button>
+            `;
+
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="login-prompt">
+                    <div class="login-prompt-icon">🔐</div>
+                    <h2 class="login-prompt-title">欢迎来到AI减重系统</h2>
+                    <p class="login-prompt-text">
+                        请先登录或注册账户，开始您的健康减重之旅<br>
+                        智能化的个性化减重管理，让健康生活更简单
+                    </p>
+                    <div class="login-prompt-buttons">
+                        <button class="btn btn-primary btn-large" onclick="goToLogin()">
+                            立即登录
+                        </button>
+                        <button class="btn btn-secondary btn-large" onclick="goToRegister()">
+                            注册账户
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 显示用户内容
+        function showUserContent(user) {
+            const navbarUser = document.getElementById('navbar-user');
+            navbarUser.innerHTML = `
+                <div class="user-info">
+                    <div class="user-avatar">👤</div>
+                    <span class="user-name">${user.name || user.username}</span>
+                </div>
+                <button class="btn btn-logout" onclick="logout()">退出</button>
+            `;
+
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <!-- 欢迎卡片 -->
+                <div class="welcome-card">
+                    <h1 class="welcome-title">你好，${user.name || user.username}！👋</h1>
+                    <p class="welcome-subtitle">
+                        欢迎回来！让我们一起开始今天的健康之旅
+                    </p>
+                </div>
+
+                <!-- 功能网格 -->
+                <div class="features-grid">
+                    <div class="feature-card" onclick="goToFeature('dashboard')">
+                        <div class="feature-icon">📊</div>
+                        <h3 class="feature-title">数据看板</h3>
+                        <p class="feature-desc">查看您的减重进度、体重变化趋势和健康数据分析</p>
+                    </div>
+
+                    <div class="feature-card" onclick="goToFeature('diet')">
+                        <div class="feature-icon">🥗</div>
+                        <h3 class="feature-title">饮食管理</h3>
+                        <p class="feature-desc">记录每日饮食，智能计算卡路里，获取营养建议</p>
+                    </div>
+
+                    <div class="feature-card" onclick="goToFeature('exercise')">
+                        <div class="feature-icon">💪</div>
+                        <h3 class="feature-title">运动计划</h3>
+                        <p class="feature-desc">个性化运动方案，科学锻炼，健康减重</p>
+                    </div>
+
+                    <div class="feature-card" onclick="goToFeature('ai')">
+                        <div class="feature-icon">🤖</div>
+                        <h3 class="feature-title">AI助手</h3>
+                        <p class="feature-desc">智能分析您的数据，提供个性化建议和指导</p>
+                    </div>
+
+                    <div class="feature-card" onclick="goToFeature('metabolism')">
+                        <div class="feature-icon">🧠</div>
+                        <h3 class="feature-title">代谢分析</h3>
+                        <p class="feature-desc">基于机器学习的代谢率预测和平台期预警</p>
+                    </div>
+
+                    <div class="feature-card" onclick="goToFeature('profile')">
+                        <div class="feature-icon">⚙️</div>
+                        <h3 class="feature-title">个人设置</h3>
+                        <p class="feature-desc">管理您的个人信息、目标设置和偏好配置</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 跳转到登录页面
+        function goToLogin() {
+            window.location.href = '/login.html';
+        }
+
+        // 跳转到注册页面
+        function goToRegister() {
+            window.location.href = '/login.html#register';
+        }
+
+        // 退出登录
+        function logout() {
+            if (confirm('确定要退出登录吗？')) {
+                localStorage.removeItem('access_token');
+                window.location.reload();
+            }
+        }
+
+        // 跳转到功能页面
+        function goToFeature(feature) {
+            alert(`${feature} 功能开发中，敬请期待！`);
+            // 实际项目中这里应该跳转到对应的功能页面
+            // window.location.href = `/${feature}.html`;
+        }
+
+        // 页面加载时检查登录状态
+        window.addEventListener('DOMContentLoaded', checkLoginStatus);
+    </script>
+</body>
+</html>

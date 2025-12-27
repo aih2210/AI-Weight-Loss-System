@@ -1,0 +1,128 @@
+<!--pages/workout-video/workout-video.wxml-->
+<view class="container" wx:if="{{plan}}">
+  <!-- 头部信息 -->
+  <view class="header-card">
+    <view class="workout-title">{{plan.day}} - {{plan.focus}}</view>
+    <view class="workout-meta">
+      <view class="meta-item">
+        <text class="meta-icon">⏱️</text>
+        <text class="meta-text">{{plan.totalTime}}分钟</text>
+      </view>
+      <view class="meta-item">
+        <text class="meta-icon">🔥</text>
+        <text class="meta-text">{{plan.totalCalories}}卡</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 进度条 -->
+  <view class="progress-section">
+    <view class="progress-info">
+      <text class="progress-text">进度：{{currentActivityIndex + 1}}/{{plan.activities.length}}</text>
+      <text class="progress-percent">{{Math.round((currentActivityIndex / plan.activities.length) * 100)}}%</text>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{(currentActivityIndex / plan.activities.length) * 100}}%"></view>
+    </view>
+  </view>
+
+  <!-- 当前动作 -->
+  <view class="current-activity-card">
+    <view class="activity-header">
+      <view class="activity-name">{{currentActivity.name}}</view>
+      <view class="activity-type">{{currentActivity.type === 'cardio' ? '有氧' : currentActivity.type === 'strength' ? '力量' : currentActivity.type === 'warmup' ? '热身' : '放松'}}</view>
+    </view>
+    
+    <!-- 视频区域 -->
+    <view class="video-section">
+      <view class="video-placeholder" bindtap="playVideo">
+        <view class="play-icon">▶</view>
+        <view class="play-text">点击播放教学视频</view>
+      </view>
+    </view>
+
+    <!-- 倒计时 -->
+    <view class="timer-section">
+      <view class="timer-display">{{formatTime(remainingTime)}}</view>
+      <view class="timer-label">剩余时间</view>
+    </view>
+
+    <!-- 动作描述 -->
+    <view class="activity-description">
+      <view class="desc-title">📋 动作说明</view>
+      <view class="desc-content">{{currentActivity.description}}</view>
+      <button class="btn-detail" bindtap="viewActivityDetail">查看详细要点</button>
+    </view>
+  </view>
+
+  <!-- 控制按钮 -->
+  <view class="control-buttons">
+    <view wx:if="{{!isPlaying}}" class="btn-row">
+      <button class="btn-primary btn-large" bindtap="startWorkout">
+        🏃 开始训练
+      </button>
+    </view>
+    
+    <view wx:else class="btn-row">
+      <button wx:if="{{!isPaused}}" class="btn-warning btn-large" bindtap="pauseWorkout">
+        ⏸️ 暂停
+      </button>
+      <button wx:else class="btn-success btn-large" bindtap="resumeWorkout">
+        ▶️ 继续
+      </button>
+    </view>
+
+    <view class="btn-row btn-row-secondary">
+      <button class="btn-secondary" bindtap="skipActivity">
+        ⏭️ 跳过
+      </button>
+      <button class="btn-secondary" bindtap="playVideo">
+        🎥 视频
+      </button>
+      <button class="btn-danger" bindtap="exitWorkout">
+        ❌ 退出
+      </button>
+    </view>
+  </view>
+
+  <!-- 训练列表 -->
+  <view class="activities-list-card">
+    <view class="card-title">📝 训练列表</view>
+    <view class="activities-list">
+      <view 
+        class="activity-item {{index === currentActivityIndex ? 'current' : ''}} {{completedActivities.includes(index) ? 'completed' : ''}}"
+        wx:for="{{plan.activities}}"
+        wx:key="name">
+        <view class="activity-number">{{index + 1}}</view>
+        <view class="activity-info">
+          <view class="activity-name-small">{{item.name}}</view>
+          <view class="activity-duration">{{item.duration}}分钟</view>
+        </view>
+        <view class="activity-status">
+          <text wx:if="{{completedActivities.includes(index)}}">✓</text>
+          <text wx:elif="{{index === currentActivityIndex}}">▶</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 训练提示 -->
+  <view class="tips-card">
+    <view class="card-title">💡 训练提示</view>
+    <view class="tips-list">
+      <view class="tip-item">• 保持呼吸顺畅，不要憋气</view>
+      <view class="tip-item">• 动作质量比数量更重要</view>
+      <view class="tip-item">• 感觉不适立即停止</view>
+      <view class="tip-item">• 训练后记得拉伸放松</view>
+    </view>
+  </view>
+</view>
+
+<wxs module="Math">
+  var round = function(num) {
+    return Math.round(num);
+  };
+  module.exports = {
+    round: round
+  };
+</wxs>

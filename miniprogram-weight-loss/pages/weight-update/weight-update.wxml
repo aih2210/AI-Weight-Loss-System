@@ -1,0 +1,37 @@
+﻿<!--pages/weight-update/weight-update.wxml-->
+<view class="container">
+  <view class="card">
+    <view class="card-title">更新体重</view>
+    
+    <view class="form-item">
+      <view class="form-label">当前体重（kg）</view>
+      <input class="form-input" type="digit" placeholder="输入体重" value="{{currentWeight}}" bindinput="onWeightInput" />
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">记录日期</view>
+      <picker mode="date" value="{{date}}" bindchange="onDateChange">
+        <view class="form-input">{{date}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="btn-primary" bindtap="saveWeight">
+    💾 保存体重
+  </view>
+
+  <view class="card">
+    <view class="card-title">体重历史</view>
+    <view wx:if="{{weightHistory.length > 0}}">
+      <view class="list-item" wx:for="{{weightHistory}}" wx:key="timestamp">
+        <view class="list-content">
+          <view class="list-title">{{item.date}}</view>
+        </view>
+        <view class="list-value">{{item.weight}} kg</view>
+      </view>
+    </view>
+    <view wx:else class="empty-state">
+      暂无历史记录
+    </view>
+  </view>
+</view>

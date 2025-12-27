@@ -1,0 +1,135 @@
+<!--pages/privacy-settings/privacy-settings.wxml-->
+<view class="container">
+  <!-- 数据隐私 -->
+  <view class="card">
+    <view class="section-title">数据隐私</view>
+    
+    <view class="setting-item">
+      <view class="setting-info">
+        <view class="setting-title">本地数据存储</view>
+        <view class="setting-desc">所有数据存储在本地，保护隐私</view>
+      </view>
+      <view class="setting-status">✅ 已启用</view>
+    </view>
+
+    <view class="setting-item">
+      <view class="setting-info">
+        <view class="setting-title">数据加密</view>
+        <view class="setting-desc">敏感数据加密存储</view>
+      </view>
+      <switch checked="{{dataEncryption}}" bindchange="onDataEncryptionChange" color="#a8d08d"/>
+    </view>
+
+    <view class="setting-item">
+      <view class="setting-info">
+        <view class="setting-title">自动备份</view>
+        <view class="setting-desc">定期自动备份数据到云端</view>
+      </view>
+      <switch checked="{{autoBackup}}" bindchange="onAutoBackupChange" color="#a8d08d"/>
+    </view>
+  </view>
+
+  <!-- 权限管理 -->
+  <view class="card">
+    <view class="section-title">权限管理</view>
+    
+    <view class="list-item" bindtap="checkLocationPermission">
+      <view class="list-icon">📍</view>
+      <view class="list-content">
+        <view class="list-title">位置权限</view>
+        <view class="list-desc">用于聚餐助手功能</view>
+      </view>
+      <view class="permission-status">{{locationPermission}}</view>
+    </view>
+
+    <view class="list-item" bindtap="checkCameraPermission">
+      <view class="list-icon">📷</view>
+      <view class="list-content">
+        <view class="list-title">相机权限</view>
+        <view class="list-desc">用于食物识别功能</view>
+      </view>
+      <view class="permission-status">{{cameraPermission}}</view>
+    </view>
+
+    <view class="list-item" bindtap="checkAlbumPermission">
+      <view class="list-icon">🖼️</view>
+      <view class="list-content">
+        <view class="list-title">相册权限</view>
+        <view class="list-desc">用于选择食物图片</view>
+      </view>
+      <view class="permission-status">{{albumPermission}}</view>
+    </view>
+  </view>
+
+  <!-- 数据共享 -->
+  <view class="card">
+    <view class="section-title">数据共享</view>
+    
+    <view class="setting-item">
+      <view class="setting-info">
+        <view class="setting-title">匿名数据统计</view>
+        <view class="setting-desc">帮助改进产品体验</view>
+      </view>
+      <switch checked="{{anonymousStats}}" bindchange="onAnonymousStatsChange" color="#a8d08d"/>
+    </view>
+
+    <view class="setting-item">
+      <view class="setting-info">
+        <view class="setting-title">崩溃报告</view>
+        <view class="setting-desc">自动发送崩溃日志</view>
+      </view>
+      <switch checked="{{crashReport}}" bindchange="onCrashReportChange" color="#a8d08d"/>
+    </view>
+  </view>
+
+  <!-- 数据管理 -->
+  <view class="card">
+    <view class="section-title">数据管理</view>
+    
+    <view class="list-item" bindtap="exportData">
+      <view class="list-icon">📤</view>
+      <view class="list-content">
+        <view class="list-title">导出数据</view>
+        <view class="list-desc">导出所有个人数据</view>
+      </view>
+      <text class="arrow">›</text>
+    </view>
+
+    <view class="list-item" bindtap="clearCache">
+      <view class="list-icon">🗑️</view>
+      <view class="list-content">
+        <view class="list-title">清除缓存</view>
+        <view class="list-desc">清除临时文件和缓存</view>
+      </view>
+      <text class="arrow">›</text>
+    </view>
+
+    <view class="list-item" bindtap="confirmClearAllData">
+      <view class="list-icon">⚠️</view>
+      <view class="list-content">
+        <view class="list-title danger-text">清除所有数据</view>
+        <view class="list-desc">删除所有本地数据（不可恢复）</view>
+      </view>
+      <text class="arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 隐私政策 -->
+  <view class="card">
+    <view class="list-item" bindtap="showPrivacyPolicy">
+      <view class="list-icon">📄</view>
+      <view class="list-content">
+        <view class="list-title">隐私政策</view>
+      </view>
+      <text class="arrow">›</text>
+    </view>
+
+    <view class="list-item" bindtap="showUserAgreement">
+      <view class="list-icon">📋</view>
+      <view class="list-content">
+        <view class="list-title">用户协议</view>
+      </view>
+      <text class="arrow">›</text>
+    </view>
+  </view>
+</view>

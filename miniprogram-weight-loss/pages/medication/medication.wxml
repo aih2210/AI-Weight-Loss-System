@@ -1,0 +1,75 @@
+<!--pages/medication/medication.wxml-->
+<view class="container">
+  <view class="card">
+    <view class="card-title">💊 我的用药</view>
+    
+    <view wx:if="{{medications.length > 0}}">
+      <view class="med-item" wx:for="{{medications}}" wx:key="id">
+        <view class="med-header" bindtap="viewDetail" data-med="{{item}}">
+          <view class="med-name">{{item.name}}</view>
+          <view class="med-dosage">{{item.dosage}}</view>
+        </view>
+        <view class="med-info">{{item.frequency}} | {{item.purpose}}</view>
+        <view wx:if="{{item.analysis && item.analysis.avoidFoods.length > 0}}" class="med-warning">
+          ⚠️ 避免：{{item.analysis.avoidFoods[0]}}等
+        </view>
+        <view class="delete-btn" bindtap="deleteMedication" data-index="{{index}}">删除</view>
+      </view>
+    </view>
+    
+    <view wx:else class="empty-text">
+      暂无用药记录
+    </view>
+  </view>
+
+  <button class="add-button" bindtap="showAddModal">
+    ➕ 添加用药记录
+  </button>
+
+  <view class="card tips-card">
+    <view class="tips-title">💡 用药与减重</view>
+    <view class="tips-text">
+      • 某些药物可能影响体重和代谢\n
+      • 记录用药有助于AI分析减重效果\n
+      • 系统会提醒避免的食物和运动\n
+      • 如有疑问请咨询医生
+    </view>
+  </view>
+</view>
+
+<!-- 添加用药弹窗 -->
+<view wx:if="{{showModal}}" class="modal" bindtap="hideModal">
+  <view class="modal-content" catchtap="stopPropagation">
+    <view class="modal-title">添加用药记录</view>
+    
+    <view class="form-item">
+      <view class="label">药品名称</view>
+      <input class="input-field" placeholder="请输入药品名称" value="{{medName}}" bindinput="onMedNameInput" />
+    </view>
+
+    <view class="form-item">
+      <view class="label">用法用量</view>
+      <input class="input-field" placeholder="如：每次1片" value="{{dosage}}" bindinput="onDosageInput" />
+    </view>
+
+    <view class="form-item">
+      <view class="label">服用频率</view>
+      <input class="input-field" placeholder="如：每日3次" value="{{frequency}}" bindinput="onFrequencyInput" />
+    </view>
+
+    <view class="form-item">
+      <view class="label">用药目的</view>
+      <input class="input-field" placeholder="如：降压、降糖等" value="{{purpose}}" bindinput="onPurposeInput" />
+    </view>
+
+    <view class="form-item">
+      <view class="label">副作用（选填）</view>
+      <textarea class="textarea-field" placeholder="记录可能的副作用..." value="{{sideEffects}}" bindinput="onSideEffectsInput" maxlength="200" />
+    </view>
+
+    <view class="button-group">
+      <button class="cancel-button" bindtap="hideModal">取消</button>
+      <button class="submit-button" bindtap="saveMedication">保存</button>
+    </view>
+  </view>
+</view>

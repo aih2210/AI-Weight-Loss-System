@@ -1,0 +1,745 @@
+/* pages/metabolism-analysis/metabolism-analysis.wxss */
+.container {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f0f7e8 0%, #ffffff 100%);
+  padding: 20rpx;
+  padding-bottom: 40rpx;
+}
+
+/* 加载状态 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.loading-icon {
+  font-size: 80rpx;
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  margin-top: 30rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+/* 卡片通用样式 */
+.card {
+  background: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(168, 208, 141, 0.15);
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+/* 标题卡片 */
+.header-card {
+  background: linear-gradient(135deg, #a8d08d 0%, #8bc34a 100%);
+  color: white;
+  text-align: center;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.header-subtitle {
+  font-size: 24rpx;
+  opacity: 0.9;
+  margin-bottom: 15rpx;
+}
+
+.header-time {
+  font-size: 22rpx;
+  opacity: 0.8;
+}
+
+/* 摘要卡片 */
+.summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15rpx;
+}
+
+.summary-item {
+  padding: 20rpx;
+  background: #f0f7e8;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+  border-left: 4rpx solid #a8d08d;
+}
+
+/* 代谢数据卡片 */
+.metabolism-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+  margin-bottom: 30rpx;
+}
+
+.metabolism-item {
+  text-align: center;
+  padding: 25rpx;
+  background: #f9f9f9;
+  border-radius: 12rpx;
+}
+
+.metabolism-label {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+.metabolism-value {
+  font-size: 40rpx;
+  font-weight: bold;
+  margin-bottom: 5rpx;
+}
+
+.metabolism-value.primary {
+  color: #a8d08d;
+}
+
+.metabolism-value.success {
+  color: #4caf50;
+}
+
+.metabolism-value.warning {
+  color: #ff9800;
+}
+
+.metabolism-value.danger {
+  color: #f44336;
+}
+
+.metabolism-value.info {
+  color: #2196f3;
+}
+
+.metabolism-unit {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.metabolism-note {
+  font-size: 20rpx;
+  color: #999;
+  margin-top: 5rpx;
+}
+
+/* TDEE对比 */
+.tdee-comparison {
+  margin-top: 20rpx;
+  padding: 20rpx;
+  background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+  border-radius: 12rpx;
+  border: 2rpx solid #2196f3;
+}
+
+.comparison-title {
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #1976d2;
+  margin-bottom: 15rpx;
+}
+
+.comparison-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.comparison-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15rpx;
+  background: white;
+  border-radius: 8rpx;
+}
+
+.comparison-label {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.comparison-value {
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.comparison-value.higher {
+  color: #4caf50;
+}
+
+.comparison-value.lower {
+  color: #ff9800;
+}
+
+.comparison-note {
+  padding: 15rpx;
+  background: white;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+.comparison-confidence {
+  padding: 10rpx 15rpx;
+  background: white;
+  border-radius: 8rpx;
+  font-size: 22rpx;
+  color: #999;
+  text-align: center;
+}
+
+/* 代谢变化 */
+.metabolism-change {
+  margin-top: 20rpx;
+  padding: 20rpx;
+  background: #f0f7e8;
+  border-radius: 12rpx;
+}
+
+.change-title {
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 15rpx;
+}
+
+.change-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.change-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15rpx;
+  background: white;
+  border-radius: 8rpx;
+}
+
+.change-label {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.change-value {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.change-value.success {
+  color: #4caf50;
+}
+
+.change-value.warning {
+  color: #ff9800;
+}
+
+.change-value.danger {
+  color: #f44336;
+}
+
+.change-note {
+  padding: 15rpx;
+  background: white;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 置信度条 */
+.confidence-bar {
+  display: flex;
+  align-items: center;
+  gap: 15rpx;
+  padding: 20rpx;
+  background: #f0f7e8;
+  border-radius: 12rpx;
+}
+
+.confidence-label {
+  font-size: 26rpx;
+  color: #666;
+  white-space: nowrap;
+}
+
+.confidence-progress {
+  flex: 1;
+  height: 16rpx;
+  background: #e0e0e0;
+  border-radius: 8rpx;
+  overflow: hidden;
+}
+
+.confidence-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #a8d08d 0%, #8bc34a 100%);
+  transition: width 0.3s;
+}
+
+.confidence-value {
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #a8d08d;
+  white-space: nowrap;
+}
+
+/* 平台期卡片 */
+.plateau-card {
+  border: 2rpx solid #e0e0e0;
+}
+
+.plateau-card.plateau-detected {
+  border-color: #f44336;
+  background: #ffebee;
+}
+
+.plateau-info {
+  display: flex;
+  gap: 30rpx;
+  padding: 20rpx;
+  background: white;
+  border-radius: 12rpx;
+}
+
+.plateau-item {
+  flex: 1;
+  text-align: center;
+}
+
+.plateau-label {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+.plateau-value {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #f44336;
+}
+
+.plateau-normal {
+  padding: 20rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #4caf50;
+}
+
+/* 影响因素 */
+.factors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15rpx;
+}
+
+.factor-item {
+  display: flex;
+  align-items: center;
+  gap: 15rpx;
+  padding: 20rpx;
+  background: #f9f9f9;
+  border-radius: 12rpx;
+  border-left: 4rpx solid #e0e0e0;
+}
+
+.factor-item.high {
+  border-left-color: #f44336;
+  background: #ffebee;
+}
+
+.factor-item.medium {
+  border-left-color: #ff9800;
+  background: #fff3e0;
+}
+
+.factor-item.low {
+  border-left-color: #4caf50;
+  background: #e8f5e9;
+}
+
+.factor-icon {
+  font-size: 32rpx;
+}
+
+.factor-content {
+  flex: 1;
+}
+
+.factor-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 5rpx;
+}
+
+.factor-value {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 建议列表 */
+.recommendations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15rpx;
+}
+
+.recommendation-item {
+  padding: 20rpx;
+  background: #f9f9f9;
+  border-radius: 12rpx;
+  border-left: 4rpx solid #e0e0e0;
+}
+
+.recommendation-item.priority-high {
+  border-left-color: #f44336;
+  background: #ffebee;
+}
+
+.recommendation-item.priority-medium {
+  border-left-color: #ff9800;
+  background: #fff3e0;
+}
+
+.recommendation-item.priority-low {
+  border-left-color: #2196f3;
+  background: #e3f2fd;
+}
+
+.rec-header {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  margin-bottom: 10rpx;
+}
+
+.rec-icon {
+  font-size: 28rpx;
+}
+
+.rec-title {
+  flex: 1;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.rec-priority {
+  font-size: 22rpx;
+  padding: 4rpx 12rpx;
+  background: white;
+  border-radius: 20rpx;
+  color: #666;
+}
+
+.rec-content {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 详细数据 */
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toggle-icon {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.detail-content {
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #e0e0e0;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15rpx 0;
+  font-size: 26rpx;
+}
+
+.detail-label {
+  color: #666;
+}
+
+.detail-value {
+  color: #333;
+  font-weight: 500;
+}
+
+/* 操作按钮 */
+.action-buttons {
+  display: flex;
+  gap: 15rpx;
+  margin-bottom: 20rpx;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 24rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  border: none;
+}
+
+.action-btn.primary {
+  background: linear-gradient(135deg, #a8d08d 0%, #8bc34a 100%);
+  color: white;
+}
+
+.action-btn.secondary {
+  background: white;
+  color: #a8d08d;
+  border: 2rpx solid #a8d08d;
+}
+
+/* 快捷操作 */
+.quick-actions {
+  display: flex;
+  gap: 20rpx;
+}
+
+.quick-action-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25rpx;
+  background: #f0f7e8;
+  border-radius: 12rpx;
+}
+
+.quick-action-icon {
+  font-size: 40rpx;
+  margin-bottom: 10rpx;
+}
+
+.quick-action-text {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 说明卡片 */
+.info-card {
+  background: #e3f2fd;
+  border-left: 4rpx solid #2196f3;
+}
+
+.info-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #1976d2;
+  margin-bottom: 15rpx;
+}
+
+.info-text {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.8;
+}
+
+/* 体重趋势预测 */
+.trend-card {
+  background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+  border: 2rpx solid #2196f3;
+}
+
+.trend-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 30rpx;
+  background: white;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.trend-summary-item {
+  text-align: center;
+}
+
+.trend-label {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+.trend-value {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.trend-value.success {
+  color: #4caf50;
+}
+
+.trend-value.warning {
+  color: #ff9800;
+}
+
+.trend-arrow {
+  font-size: 32rpx;
+  color: #999;
+}
+
+/* 趋势图表 */
+.trend-chart {
+  background: white;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.chart-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15rpx;
+  text-align: center;
+}
+
+.chart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.chart-item {
+  display: flex;
+  align-items: center;
+  padding: 15rpx;
+  background: #f9f9f9;
+  border-radius: 8rpx;
+  gap: 15rpx;
+}
+
+.chart-day {
+  font-size: 24rpx;
+  color: #666;
+  width: 80rpx;
+}
+
+.chart-date {
+  font-size: 22rpx;
+  color: #999;
+  width: 80rpx;
+}
+
+.chart-weight {
+  flex: 1;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.chart-change {
+  font-size: 24rpx;
+  font-weight: 500;
+  width: 100rpx;
+  text-align: right;
+}
+
+.chart-change.down {
+  color: #4caf50;
+}
+
+.chart-change.up {
+  color: #ff9800;
+}
+
+.chart-confidence {
+  font-size: 22rpx;
+  color: #999;
+  width: 120rpx;
+  text-align: right;
+}
+
+/* 预测假设 */
+.trend-assumptions {
+  background: white;
+  border-radius: 12rpx;
+  padding: 20rpx;
+}
+
+.assumptions-title {
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 15rpx;
+}
+
+.assumptions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15rpx;
+}
+
+.assumption-item {
+  padding: 15rpx;
+  background: #f9f9f9;
+  border-radius: 8rpx;
+  text-align: center;
+}
+
+.assumption-label {
+  font-size: 22rpx;
+  color: #666;
+  margin-bottom: 8rpx;
+}
+
+.assumption-value {
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #2196f3;
+}
+
+/* 趋势建议样式增强 */
+.recommendation-item.type-warning {
+  background: #fff3e0;
+  border-left-color: #ff9800;
+}
+
+.recommendation-item.type-success {
+  background: #e8f5e9;
+  border-left-color: #4caf50;
+}
+
+.recommendation-item.type-info {
+  background: #e3f2fd;
+  border-left-color: #2196f3;
+}

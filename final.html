@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI减重助手 - 完整版</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Microsoft YaHei', sans-serif; background: #f0f7e8; }
+        .header { background: linear-gradient(135deg, #a8d08d 0%, #8bc34a 100%); padding: 20px; color: white; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .back-btn { font-size: 24px; cursor: pointer; display: none; }
+        .header-title { font-size: 20px; font-weight: bold; }
+        .content { padding: 15px; padding-bottom: 80px; min-height: calc(100vh - 140px); }
+        .card { background: white; border-radius: 20px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; transition: all 0.3s; }
+        .card:active { transform: scale(0.98); }
+        .card-title { font-size: 18px; font-weight: bold; color: #333; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .arrow { color: #999; font-size: 20px; }
+        .weight-number { font-size: 64px; font-weight: bold; color: #a8d08d; line-height: 1; text-align: center; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .stat-box { text-align: center; padding: 15px; background: #f8f9fa; border-radius: 15px; }
+        .stat-value { font-size: 24px; font-weight: bold; color: #333; margin: 5px 0; }
+        .stat-label { font-size: 12px; color: #999; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; display: flex; background: white; border-top: 1px solid #f0f0f0; padding: 10px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); z-index: 99; }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 5px; cursor: pointer; }
+        .nav-item.active { color: #a8d08d; }
+        .nav-icon { font-size: 24px; margin-bottom: 3px; }
+        .nav-label { font-size: 11px; color: #999; }
+        .nav-item.active .nav-label { color: #a8d08d; font-weight: bold; }
+        .fab { position: fixed; bottom: 70px; right: 20px; width: 56px; height: 56px; background: linear-gradient(135deg, #a8d08d 0%, #8bc34a 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 28px; box-shadow: 0 4px 12px rgba(168, 208, 141, 0.4); cursor: pointer; z-index: 100; }
+        .hidden { display: none !important; }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 15px; font-size: 16px; font-weight: bold; cursor: pointer; margin-bottom: 10px; transition: all 0.3s; }
+        .btn-primary { background: linear-gradient(135deg, #a8d08d 0%, #8bc34a 100%); color: white; }
+        .btn-secondary { background: #f8f9fa; color: #333; }
+        .btn:active { transform: scale(0.98); }
+        input, select, textarea { width: 100%; padding: 15px; border: 1px solid #e0e0e0; border-radius: 15px; font-size: 14px; margin-bottom: 15px; font-family: inherit; }
+        textarea { resize: vertical; min-height: 100px; }
+        label { display: block; font-size: 14px; color: #666; margin-bottom: 8px; font-weight: 500; }
+        .list-item { padding: 15px; background: #f8f9fa; border-radius: 12px; margin-bottom: 10px; display: flex; align-items: center; cursor: pointer; }
+        .list-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #a8d08d, #8bc34a); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-right: 12px; }
+        .list-content { flex: 1; }
+        .list-title { font-weight: bold; color: #333; margin-bottom: 3px; }
+        .list-desc { font-size: 12px; color: #999; }
+        .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 28px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #a8d08d; }
+        input:checked + .slider:before { transform: translateX(22px); }
+        .badge { display: inline-block; padding: 4px 12px; background: #e8f5e9; color: #a8d08d; border-radius: 12px; font-size: 12px; font-weight: bold; }
+        .progress-bar { height: 12px; background: #f0f0f0; border-radius: 6px; overflow: hidden; margin: 15px 0; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #a8d08d, #8bc34a); transition: width 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div class="back-btn" onclick="goBack()">←</div>
+            <div class="header-title" id="headerTitle">AI减重助手</div>
+        </div>
+        <div style="font-size: 28px; cursor: pointer;" onclick="showProfile()">😊</div>
+    </div>
+    
+    <div class="content" id="content"></div>
+    
+    <div class="fab" id="fab" onclick="showAddMenu()">+</div>
+    
+    <div class="bottom-nav" id="bottomNav">
+        <div class="nav-item active" onclick="showHome()">
+            <div class="nav-icon">📊</div>
+            <div class="nav-label">首页</div>
+        </div>
+        <div class="nav-item" onclick="showDiet()">
+            <div class="nav-icon">🍽️</div>
+            <div class="nav-label">饮食</div>
+        </div>
+        <div class="nav-item" onclick="showExercise()">
+            <div class="nav-icon">💪</div>
+            <div class="nav-label">运动</div>
+        </div>
+        <div class="nav-item" onclick="showProfile()">
+            <div class="nav-icon">👤</div>
+            <div class="nav-label">我的</div>
+        </div>
+    </div>
+    
+    <script>
+        let currentPage = 'home';
+        let pageHistory = [];
+        let userData = {
+            name: '张三',
+            age: 30,
+            gender: '男',
+            height: 170,
+            weight: 56,
+            targetWeight: 50,
+            startWeight: 60
+        };
+        
+        function navigateTo(page, title) {
+            pageHistory.push(currentPage);
+            currentPage = page;
+            document.getElementById('headerTitle').textContent = title;
+            document.querySelector('.back-btn').style.display = 'block';
+            document.getElementById('bottomNav').style.display = 'none';
+            document.getElementById('fab').style.display = 'none';
+        }
+        
+        function goBack() {
+            if (pageHistory.length > 0) {
+                currentPage = pageHistory.pop();
+                document.querySelector('.back-btn').style.display = pageHistory.length > 0 ? 'block' : 'none';
+                if (pageHistory.length === 0) {
+                    document.getElementById('bottomNav').style.display = 'flex';
+                    document.getElementById('fab').style.display = 'flex';
+                }
+                switch(currentPage) {
+                    case 'home': showHome(); break;
+                    case 'diet': showDiet(); break;
+                    case 'exercise': showExercise(); break;
+                    case 'profile': showProfile(); break;
+                }
+            }
+        }
+        
+        function updateNavActive(index) {
+            document.querySelectorAll('.nav-item').forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+        }

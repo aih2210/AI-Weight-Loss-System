@@ -1,0 +1,88 @@
+<!--pages/health-mall/health-mall.wxml-->
+<view class="container">
+  <!-- 顶部余额栏 -->
+  <view class="balance-bar">
+    <view class="balance-info">
+      <text class="balance-label">我的健康币</text>
+      <text class="balance-value">💰 {{balance}}</text>
+    </view>
+    <view class="order-btn" bindtap="viewOrders">我的订单</view>
+  </view>
+
+  <!-- 分类标签 -->
+  <view class="category-tabs">
+    <scroll-view scroll-x class="category-scroll">
+      <view class="category-list">
+        <view 
+          class="category-item {{currentCategory === index ? 'active' : ''}}"
+          wx:for="{{categories}}"
+          wx:key="index"
+          bindtap="switchCategory"
+          data-index="{{index}}">
+          {{item}}
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 产品列表 -->
+  <view class="product-list">
+    <view 
+      class="product-card"
+      wx:for="{{products}}"
+      wx:key="id"
+      bindtap="viewProduct"
+      data-product="{{item}}">
+      
+      <view class="product-image" style="background: {{item.bgColor}}">
+        <image wx:if="{{item.image}}" src="{{item.image}}" mode="aspectFill" class="product-img" />
+        <text wx:else class="product-icon">{{item.icon}}</text>
+      </view>
+      
+      <view class="product-info">
+        <view class="product-brand">{{item.brand}}</view>
+        <view class="product-name">{{item.name}}</view>
+        
+        <view class="product-features">
+          <text class="feature-tag" wx:for="{{item.features}}" wx:key="index" wx:for-item="feature">
+            {{feature}}
+          </text>
+        </view>
+        
+        <view class="product-price">
+          <view class="price-row">
+            <text class="original-price">¥{{item.originalPrice}}</text>
+            <text class="cash-price">¥{{item.cashPrice}}</text>
+          </view>
+          <view class="coin-price">
+            <text class="coin-icon">💰</text>
+            <text class="coin-value">{{item.coinPrice}}</text>
+          </view>
+        </view>
+        
+        <view class="product-discount">{{item.discount}}</view>
+        
+        <view class="product-stock">
+          <text wx:if="{{item.stock > 10}}">库存充足</text>
+          <text wx:elif="{{item.stock > 0}}" class="low-stock">仅剩{{item.stock}}件</text>
+          <text wx:else class="out-stock">已售罄</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:if="{{products.length === 0}}" class="empty-state">
+    <view class="empty-icon">📦</view>
+    <view class="empty-text">该分类暂无商品</view>
+  </view>
+
+  <!-- 底部说明 -->
+  <view class="bottom-tips">
+    <view class="tip-title">💡 购物说明</view>
+    <view class="tip-item">• 健康币+现金组合支付，享受超值优惠</view>
+    <view class="tip-item">• 所有商品均为九安医疗正品保障</view>
+    <view class="tip-item">• 1-3个工作日内发货，全国包邮</view>
+    <view class="tip-item">• 支持7天无理由退换货</view>
+  </view>
+</view>

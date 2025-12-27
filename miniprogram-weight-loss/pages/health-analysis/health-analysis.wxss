@@ -1,0 +1,170 @@
+/* pages/health-analysis/health-analysis.wxss */
+.container {
+  padding: 20rpx;
+  background-color: #f0f7e8;
+  min-height: 100vh;
+}
+
+.card {
+  background: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(168, 208, 141, 0.1);
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.health-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.health-item {
+  text-align: center;
+  padding: 20rpx;
+  background: #f9f9f9;
+  border-radius: 12rpx;
+}
+
+.health-icon {
+  font-size: 48rpx;
+  margin-bottom: 10rpx;
+}
+
+.health-value {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #a8d08d;
+  margin: 8rpx 0;
+}
+
+.health-label {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.sync-bar {
+  display: flex;
+  gap: 15rpx;
+  margin-top: 20rpx;
+}
+
+.sync-button,
+.connect-button {
+  flex: 1;
+  padding: 24rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  border: none;
+}
+
+.sync-button {
+  background: linear-gradient(135deg, #a8d08d 0%, #8bc34a 100%);
+  color: white;
+}
+
+.connect-button {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.recommendation-list {
+  margin-top: 20rpx;
+}
+
+.recommendation-item {
+  padding: 20rpx;
+  border-radius: 12rpx;
+  margin-bottom: 15rpx;
+  border-left: 4rpx solid #a8d08d;
+}
+
+.recommendation-item.success {
+  background: #e8f5e0;
+  border-left-color: #4caf50;
+}
+
+.recommendation-item.warning {
+  background: #fff3e0;
+  border-left-color: #ff9800;
+}
+
+.recommendation-item.info {
+  background: #e3f2fd;
+  border-left-color: #2196f3;
+}
+
+.rec-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.rec-icon {
+  font-size: 32rpx;
+  margin-right: 10rpx;
+}
+
+.rec-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.rec-content {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20rpx;
+  margin-top: 20rpx;
+}
+
+.action-item {
+  text-align: center;
+  padding: 30rpx 20rpx;
+  background: #f9f9f9;
+  border-radius: 12rpx;
+}
+
+.action-icon {
+  font-size: 48rpx;
+  margin-bottom: 10rpx;
+}
+
+.action-text {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.tips-card {
+  background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+  border-left: 4rpx solid #a8d08d;
+}
+
+.tips-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15rpx;
+}
+
+.tips-text {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 2;
+  white-space: pre-line;
+}

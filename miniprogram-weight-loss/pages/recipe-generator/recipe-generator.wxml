@@ -1,0 +1,80 @@
+﻿<!--pages/recipe-generator/recipe-generator.wxml-->
+<view class="container">
+  <view class="card">
+    <view class="card-title">AI食谱生成</view>
+    <view style="color: #666; font-size: 28rpx; margin-bottom: 20rpx;">
+      告诉AI你想吃什么，生成健康替代方案
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="form-item">
+      <view class="form-label">想吃的食物</view>
+      <input class="form-input" placeholder="例如：炸鸡、汉堡、披萨..." bindinput="onPreferencesInput" value="{{preferences}}" />
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">餐次类型</view>
+      <picker mode="selector" range="{{mealTypes}}" value="{{mealType}}" bindchange="onMealTypeChange">
+        <view class="picker-view">{{mealTypes[mealType]}}</view>
+      </picker>
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">目标卡路里（可选）</view>
+      <input class="form-input" type="number" placeholder="输入目标卡路里" bindinput="onCaloriesInput" value="{{calories}}" />
+    </view>
+  </view>
+
+  <button class="btn-primary" bindtap="generateRecipe" disabled="{{generating}}">
+    {{generating ? '⏳ 生成中...' : '🤖 生成AI食谱'}}
+  </button>
+
+  <!-- 生成的食谱列表 -->
+  <view class="card" wx:if="{{recipes.length > 0}}">
+    <view class="card-title">📋 生成的食谱</view>
+    <view class="recipe-list">
+      <view class="recipe-item" wx:for="{{recipes}}" wx:key="id">
+        <view class="recipe-header" bindtap="viewRecipeDetail" data-recipe="{{item}}">
+          <view class="recipe-name">{{item.name}}</view>
+          <view class="recipe-calories">{{item.calories}} kcal</view>
+        </view>
+        
+        <!-- 个性化推荐标签 -->
+        <view wx:if="{{item.isPersonalized}}" class="personalized-badge">
+          <view class="badge-icon">🎯</view>
+          <view class="badge-text">个性化推荐 · {{item.reason}}</view>
+        </view>
+        
+        <view class="recipe-info">
+          <view class="info-tag">⏱️ {{item.time}}分钟</view>
+          <view class="info-tag">📊 {{item.difficulty}}</view>
+          <view class="info-tag">🏷️ {{item.mealType}}</view>
+        </view>
+        <view class="recipe-nutrition">
+          <view class="nutrition-item">蛋白质 {{item.protein}}g</view>
+          <view class="nutrition-item">碳水 {{item.carbs}}g</view>
+          <view class="nutrition-item">脂肪 {{item.fat}}g</view>
+        </view>
+        <view class="recipe-tags">
+          <view class="tag" wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">{{tag}}</view>
+        </view>
+        <view class="recipe-actions">
+          <button class="action-btn view-btn" bindtap="viewRecipeDetail" data-recipe="{{item}}">查看详情</button>
+          <button class="action-btn delete-btn" bindtap="deleteRecipe" data-index="{{index}}">删除</button>
+        </view>
+        <view class="recipe-time">生成于：{{item.generatedAt}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">💡 功能说明</view>
+    <view style="color: #666; font-size: 28rpx; line-height: 1.6;">
+      • 选择餐次类型（早餐/午餐/晚餐/加餐）\n
+      • 可选填目标卡路里，AI会推荐接近的食谱\n
+      • 点击食谱可查看完整制作步骤\n
+      • 所有食谱都是健康低卡的替代方案
+    </view>
+  </view>
+</view>

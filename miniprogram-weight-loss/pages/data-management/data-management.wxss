@@ -1,0 +1,283 @@
+/* pages/data-management/data-management.wxss */
+.stats-card {
+  background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+  border-left: 4rpx solid #a8d08d;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.storage-size {
+  font-size: 24rpx;
+  color: #666;
+  background: white;
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+  margin-bottom: 30rpx;
+}
+
+.stat-item {
+  background: white;
+  border-radius: 12rpx;
+  padding: 25rpx;
+  text-align: center;
+}
+
+.stat-icon {
+  font-size: 48rpx;
+  margin-bottom: 10rpx;
+}
+
+.stat-value {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #a8d08d;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.total-stats {
+  background: white;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.total-label {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.total-value {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.detail-button {
+  width: 100%;
+  background: white;
+  color: #a8d08d;
+  border: 2rpx solid #a8d08d;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+}
+
+.section-title {
+  font-size: 28rpx;
+  color: #999;
+  margin-bottom: 20rpx;
+  font-weight: 500;
+}
+
+.action-list {
+  background: white;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  padding: 25rpx 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.action-item:last-child {
+  border-bottom: none;
+}
+
+.action-item.disabled {
+  opacity: 0.5;
+}
+
+.action-icon {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  margin-right: 20rpx;
+}
+
+.action-icon.export {
+  background: #e3f2fd;
+}
+
+.action-icon.import {
+  background: #f3e5f5;
+}
+
+.action-icon.backup {
+  background: #fff3e0;
+}
+
+.action-icon.restore {
+  background: #e0f2f1;
+}
+
+.action-icon.delete {
+  background: #ffebee;
+}
+
+.action-content {
+  flex: 1;
+}
+
+.action-title {
+  font-size: 30rpx;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+.action-desc {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.arrow {
+  font-size: 32rpx;
+  color: #ccc;
+}
+
+.backup-status {
+  background: white;
+  border-radius: 12rpx;
+  padding: 25rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.backup-info {
+  flex: 1;
+}
+
+.backup-label {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+}
+
+.backup-time {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.backup-badge {
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  font-weight: 500;
+}
+
+.backup-badge.has-backup {
+  background: #e8f5e9;
+  color: #4caf50;
+}
+
+.backup-badge.no-backup {
+  background: #fff3e0;
+  color: #ff9800;
+}
+
+.danger-card {
+  border: 2rpx solid #ffebee;
+  background: #fff5f5;
+}
+
+.danger-title {
+  color: #ff4444;
+}
+
+.danger-button {
+  width: 100%;
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 12rpx;
+  padding: 25rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 15rpx;
+}
+
+.button-icon {
+  font-size: 32rpx;
+}
+
+.button-text {
+  font-size: 30rpx;
+}
+
+.danger-warning {
+  text-align: center;
+  font-size: 24rpx;
+  color: #ff4444;
+  line-height: 1.6;
+}
+
+.info-card {
+  background: #fff8e1;
+  border-left: 4rpx solid #ffc107;
+}
+
+.info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15rpx;
+}
+
+.info-icon {
+  font-size: 32rpx;
+  margin-top: 4rpx;
+}
+
+.info-text {
+  flex: 1;
+}
+
+.info-title {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 6rpx;
+}
+
+.info-desc {
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.6;
+}

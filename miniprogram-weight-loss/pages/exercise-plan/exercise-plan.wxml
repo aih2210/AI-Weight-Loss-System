@@ -1,0 +1,154 @@
+<!--pages/exercise-plan/exercise-plan.wxml-->
+<view class="container">
+  <!-- 最小可行方案提示 -->
+  <view wx:if="{{showMinimalPlan}}" class="minimal-plan-card">
+    <view class="minimal-header">
+      <view class="minimal-title">💪 重新开始</view>
+      <view class="close-btn" bindtap="closeMinimalPlan">×</view>
+    </view>
+    <view class="minimal-content">
+      <view class="encouragement">{{minimalPlanData.encouragement}}</view>
+      <view class="minimal-plan-info">
+        <view class="plan-name">{{minimalPlanData.minimalPlan.name}}</view>
+        <view class="plan-duration">只需 {{minimalPlanData.minimalPlan.duration}} 分钟</view>
+      </view>
+      <button class="btn-minimal" bindtap="showMinimalPlanDetail">查看详情</button>
+    </view>
+  </view>
+
+  <!-- 当前计划 -->
+  <view wx:if="{{hasActivePlan}}" class="active-plan-section">
+    <!-- 预期效果 -->
+    <view class="card results-card">
+      <view class="card-title">📊 预期效果</view>
+      <view class="results-grid">
+        <view class="result-item">
+          <view class="result-value">{{expectedResults.trainingDays}}</view>
+          <view class="result-label">训练天数/周</view>
+        </view>
+        <view class="result-item">
+          <view class="result-value">{{expectedResults.totalCalories}}</view>
+          <view class="result-label">总消耗/周</view>
+        </view>
+        <view class="result-item">
+          <view class="result-value">{{expectedResults.expectedWeightLoss}}</view>
+          <view class="result-label">预期减重(kg)</view>
+        </view>
+      </view>
+      <view class="result-desc">{{expectedResults.description}}</view>
+    </view>
+
+    <!-- 周计划 -->
+    <view class="card">
+      <view class="card-title">📅 本周计划</view>
+      <view class="weekly-plan">
+        <view 
+          class="day-card {{item.isRestDay ? 'rest-day' : 'training-day'}}" 
+          wx:for="{{weeklyPlan}}" 
+          wx:key="dayIndex"
+          bindtap="viewDayPlan"
+          data-day="{{item}}">
+          
+          <view class="day-header">
+            <view class="day-name">{{item.day}}</view>
+            <view wx:if="{{!item.isRestDay}}" class="day-badge">{{item.focus}}</view>
+            <view wx:else class="rest-badge">休息</view>
+          </view>
+
+          <view wx:if="{{!item.isRestDay}}" class="day-info">
+            <view class="info-row">
+              <text class="info-icon">⏱️</text>
+              <text class="info-text">{{item.totalTime}}分钟</text>
+            </view>
+            <view class="info-row">
+              <text class="info-icon">🔥</text>
+              <text class="info-text">{{item.totalCalories}}卡</text>
+            </view>
+          </view>
+
+          <view wx:if="{{!item.isRestDay}}" class="activities-preview">
+            <view class="activity-tag" wx:for="{{item.activities}}" wx:key="name" wx:for-item="activity">
+              {{activity.name}}
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-buttons">
+      <button class="btn-secondary" bindtap="adjustPlan">🔄 调整计划</button>
+      <button class="btn-danger" bindtap="deletePlan">🗑️ 删除计划</button>
+    </view>
+  </view>
+
+  <!-- 生成新计划 -->
+  <view wx:else class="new-plan-section">
+    <view class="card">
+      <view class="card-title">🎯 生成个性化运动计划</view>
+      <view class="card-desc">根据你的体能、时间和目标，AI将为你定制专属计划</view>
+    </view>
+
+    <!-- 体能水平 -->
+    <view class="card">
+      <view class="form-label">💪 体能水平</view>
+      <picker mode="selector" range="{{fitnessLevels}}" value="{{fitnessLevel}}" bindchange="onFitnessLevelChange">
+        <view class="picker-view">{{fitnessLevels[fitnessLevel]}}</view>
+      </picker>
+    </view>
+
+    <!-- 可用时间 -->
+    <view class="card">
+      <view class="form-label">⏱️ 每次可用时间</view>
+      <picker mode="selector" range="{{timeOptions}}" value="{{selectedTimeIndex}}" bindchange="onTimeChange">
+        <view class="picker-view">{{timeOptions[selectedTimeIndex]}} 分钟</view>
+      </picker>
+    </view>
+
+    <!-- 运动偏好 -->
+    <view class="card">
+      <view class="form-label">❤️ 运动偏好（可多选）</view>
+      <view class="tag-grid">
+        <view 
+          class="tag-item {{item.selected ? 'selected' : ''}}" 
+          wx:for="{{preferenceList}}" 
+          wx:key="name"
+          bindtap="togglePreference"
+          data-pref="{{item.name}}">
+          {{item.name}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 可用设备 -->
+    <view class="card">
+      <view class="form-label">🏋️ 可用设备（可多选）</view>
+      <view class="tag-grid">
+        <view 
+          class="tag-item {{item.selected ? 'selected' : ''}}" 
+          wx:for="{{equipmentList}}" 
+          wx:key="name"
+          bindtap="toggleEquipment"
+          data-equip="{{item.name}}">
+          {{item.name}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 生成按钮 -->
+    <button class="btn-primary" bindtap="generatePlan">
+      🤖 生成AI运动计划
+    </button>
+
+    <!-- 说明 -->
+    <view class="card tips-card">
+      <view class="card-title">💡 功能说明</view>
+      <view class="tips-text">
+        • AI根据你的情况生成个性化计划\n
+        • 计划会根据完成情况自动调整\n
+        • 连续错过训练时提供最小可行方案\n
+        • 不要求完美，只要开始就是胜利
+      </view>
+    </view>
+  </view>
+</view>

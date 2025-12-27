@@ -1,0 +1,38 @@
+# Web框架
+fastapi
+uvicorn[standard]
+pydantic
+python-multipart
+
+# 机器学习（使用预编译版本）
+scikit-learn
+xgboost
+numpy
+pandas
+joblib
+
+# YOLO目标检测
+ultralytics
+opencv-python
+torch
+torchvision
+
+# 数据库
+sqlalchemy
+psycopg2-binary
+redis
+alembic
+
+# AI服务
+openai
+pillow
+
+# 工具库
+python-dotenv
+python-jose[cryptography]
+passlib[bcrypt]
+python-dateutil
+httpx
+
+# 监控与日志
+loguru

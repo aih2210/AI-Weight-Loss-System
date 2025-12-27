@@ -1,0 +1,51 @@
+<!--pages/order-list/order-list.wxml-->
+<view class="container">
+  <view class="order-list">
+    <view class="order-card" wx:for="{{orders}}" wx:key="id">
+      <view class="order-header">
+        <view class="order-id">订单号：{{item.id}}</view>
+        <view class="order-status" style="color: {{statusMap[item.status].color}}">
+          {{statusMap[item.status].text}}
+        </view>
+      </view>
+
+      <view class="order-product" bindtap="viewOrderDetail" data-order="{{item}}">
+        <view class="product-image" style="background: {{item.product.bgColor}}">
+          <image wx:if="{{item.product.image}}" src="{{item.product.image}}" mode="aspectFill" class="product-img" />
+          <text wx:else class="product-icon">{{item.product.icon}}</text>
+        </view>
+        <view class="product-info">
+          <view class="product-name">{{item.product.name}}</view>
+          <view class="product-brand">{{item.product.brand}}</view>
+          <view class="product-payment">
+            <text class="cash">¥{{item.cashPaid}}</text>
+            <text class="coin">+ 💰{{item.coinPaid}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="order-time">{{item.orderTime}}</view>
+
+      <view class="order-actions">
+        <button 
+          wx:if="{{item.status === 'pending'}}"
+          class="btn-cancel" 
+          bindtap="cancelOrder" 
+          data-order="{{item}}">
+          取消订单
+        </button>
+        <button class="btn-detail" bindtap="viewOrderDetail" data-order="{{item}}">
+          查看详情
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{orders.length === 0}}" class="empty-state">
+    <view class="empty-icon">📦</view>
+    <view class="empty-text">暂无订单</view>
+    <navigator url="/pages/health-mall/health-mall" class="go-shopping">
+      去商城逛逛
+    </navigator>
+  </view>
+</view>

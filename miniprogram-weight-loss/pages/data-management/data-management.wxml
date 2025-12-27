@@ -1,0 +1,164 @@
+﻿<!--pages/data-management/data-management.wxml-->
+<view class="container">
+  <!-- 数据统计卡片 -->
+  <view class="card stats-card">
+    <view class="card-header">
+      <view class="card-title">📊 数据统计</view>
+      <view class="storage-size">{{storageSize}}</view>
+    </view>
+    
+    <view class="stats-grid">
+      <view class="stat-item">
+        <view class="stat-icon">🥗</view>
+        <view class="stat-value">{{foodCount}}</view>
+        <view class="stat-label">饮食记录</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-icon">💪</view>
+        <view class="stat-value">{{exerciseCount}}</view>
+        <view class="stat-label">运动记录</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-icon">😊</view>
+        <view class="stat-value">{{emotionCount}}</view>
+        <view class="stat-label">情绪记录</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-icon">⚖️</view>
+        <view class="stat-value">{{weightCount}}</view>
+        <view class="stat-label">体重记录</view>
+      </view>
+    </view>
+
+    <view class="total-stats">
+      <view class="total-label">总计</view>
+      <view class="total-value">{{totalCount}} 条记录</view>
+    </view>
+
+    <button class="detail-button" bindtap="viewDataDetails">
+      查看详细信息
+    </button>
+  </view>
+
+  <!-- 数据操作 -->
+  <view class="card">
+    <view class="section-title">数据操作</view>
+    
+    <view class="action-list">
+      <view class="action-item" bindtap="exportData">
+        <view class="action-icon export">📤</view>
+        <view class="action-content">
+          <view class="action-title">导出数据</view>
+          <view class="action-desc">将所有数据导出为JSON格式</view>
+        </view>
+        <text class="arrow">›</text>
+      </view>
+
+      <view class="action-item" bindtap="importData">
+        <view class="action-icon import">📥</view>
+        <view class="action-content">
+          <view class="action-title">导入数据</view>
+          <view class="action-desc">从JSON文件导入数据</view>
+        </view>
+        <text class="arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 备份与恢复 -->
+  <view class="card">
+    <view class="section-title">备份与恢复</view>
+    
+    <view class="backup-status">
+      <view class="backup-info">
+        <view class="backup-label">上次备份</view>
+        <view class="backup-time">{{lastBackupTime}}</view>
+      </view>
+      <view class="backup-badge {{hasBackup ? 'has-backup' : 'no-backup'}}">
+        {{hasBackup ? '✓ 已备份' : '未备份'}}
+      </view>
+    </view>
+
+    <view class="action-list">
+      <view class="action-item" bindtap="backupData">
+        <view class="action-icon backup">💾</view>
+        <view class="action-content">
+          <view class="action-title">立即备份</view>
+          <view class="action-desc">备份当前所有数据到本地</view>
+        </view>
+        <text class="arrow">›</text>
+      </view>
+
+      <view class="action-item {{hasBackup ? '' : 'disabled'}}" bindtap="restoreData">
+        <view class="action-icon restore">🔄</view>
+        <view class="action-content">
+          <view class="action-title">恢复备份</view>
+          <view class="action-desc">从备份恢复数据</view>
+        </view>
+        <text class="arrow">›</text>
+      </view>
+
+      <view wx:if="{{hasBackup}}" class="action-item" bindtap="deleteBackup">
+        <view class="action-icon delete">🗑️</view>
+        <view class="action-content">
+          <view class="action-title">删除备份</view>
+          <view class="action-desc">删除本地备份数据</view>
+        </view>
+        <text class="arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 危险操作 -->
+  <view class="card danger-card">
+    <view class="section-title danger-title">⚠️ 危险操作</view>
+    
+    <button class="danger-button" bindtap="clearData">
+      <view class="button-icon">🗑️</view>
+      <view class="button-text">清除所有数据</view>
+    </button>
+
+    <view class="danger-warning">
+      ⚠️ 清除后数据将无法恢复，请谨慎操作！
+    </view>
+  </view>
+
+  <!-- 使用说明 -->
+  <view class="card info-card">
+    <view class="section-title">💡 使用说明</view>
+    
+    <view class="info-list">
+      <view class="info-item">
+        <view class="info-icon">📤</view>
+        <view class="info-text">
+          <view class="info-title">导出数据</view>
+          <view class="info-desc">数据会复制到剪贴板，可粘贴到备忘录保存</view>
+        </view>
+      </view>
+
+      <view class="info-item">
+        <view class="info-icon">📥</view>
+        <view class="info-text">
+          <view class="info-title">导入数据</view>
+          <view class="info-desc">先复制JSON数据到剪贴板，再点击导入</view>
+        </view>
+      </view>
+
+      <view class="info-item">
+        <view class="info-icon">💾</view>
+        <view class="info-text">
+          <view class="info-title">本地备份</view>
+          <view class="info-desc">备份存储在本地，可快速恢复数据</view>
+        </view>
+      </view>
+
+      <view class="info-item">
+        <view class="info-icon">🔒</view>
+        <view class="info-text">
+          <view class="info-title">数据安全</view>
+          <view class="info-desc">所有数据存储在本地，完全离线可用</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

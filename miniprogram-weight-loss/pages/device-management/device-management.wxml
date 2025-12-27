@@ -1,0 +1,92 @@
+<!--pages/device-management/device-management.wxml-->
+<view class="container">
+  <!-- 已连接设备 -->
+  <view class="card">
+    <view class="card-title">⌚ 已连接设备</view>
+    
+    <view wx:if="{{connectedDevices.length > 0}}">
+      <view class="device-item" wx:for="{{connectedDevices}}" wx:key="id">
+        <view class="device-info" bindtap="viewDeviceDetail" data-device="{{item}}">
+          <view class="device-icon">{{item.type === 'watch' ? '⌚' : item.type === 'band' ? '📿' : '⚖️'}}</view>
+          <view class="device-details">
+            <view class="device-name">{{item.name}}</view>
+            <view class="device-status">
+              <text class="status-dot"></text>
+              已连接 · 电量 {{item.battery}}%
+            </view>
+            <view class="device-sync">最后同步：{{item.lastSync}}</view>
+          </view>
+        </view>
+        <view class="device-actions">
+          <button class="action-btn sync" bindtap="syncDevice" data-index="{{index}}">
+            🔄 同步
+          </button>
+          <button class="action-btn disconnect" bindtap="disconnectDevice" data-index="{{index}}">
+            断开
+          </button>
+        </view>
+      </view>
+    </view>
+    
+    <view wx:else class="empty-text">
+      暂无连接设备
+    </view>
+  </view>
+
+  <!-- 添加设备按钮 -->
+  <button class="add-button" bindtap="showAddDevice">
+    ➕ 添加设备
+  </button>
+
+  <!-- 支持的设备类型 -->
+  <view class="card">
+    <view class="card-title">📱 支持的设备</view>
+    <view class="device-types">
+      <view class="type-item {{item.supported ? '' : 'disabled'}}" wx:for="{{deviceTypes}}" wx:key="type">
+        <view class="type-icon">{{item.icon}}</view>
+        <view class="type-name">{{item.name}}</view>
+        <view class="type-status">{{item.supported ? '支持' : '即将支持'}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 使用提示 -->
+  <view class="card tips-card">
+    <view class="tips-title">💡 使用提示</view>
+    <view class="tips-text">
+      • 确保设备蓝牙已开启\n
+      • 设备需在附近（10米内）\n
+      • 首次连接需在设备上确认\n
+      • 定期同步数据以保持准确\n
+      • 低电量时及时充电
+    </view>
+  </view>
+</view>
+
+<!-- 添加设备弹窗 -->
+<view wx:if="{{showAddModal}}" class="modal" bindtap="hideModal">
+  <view class="modal-content" catchtap="stopPropagation">
+    <view class="modal-title">添加设备</view>
+    
+    <button class="scan-button" bindtap="scanDevices" disabled="{{scanning}}">
+      {{scanning ? '扫描中...' : '🔍 扫描设备'}}
+    </button>
+
+    <view wx:if="{{availableDevices.length > 0}}" class="available-list">
+      <view class="available-item" wx:for="{{availableDevices}}" wx:key="id" bindtap="connectDevice" data-device="{{item}}">
+        <view class="available-icon">{{item.type === 'watch' ? '⌚' : '📿'}}</view>
+        <view class="available-info">
+          <view class="available-name">{{item.name}}</view>
+          <view class="available-signal">信号强度：{{item.rssi}} dBm</view>
+        </view>
+        <view class="connect-arrow">›</view>
+      </view>
+    </view>
+
+    <view wx:else class="scan-hint">
+      点击扫描按钮搜索附近的设备
+    </view>
+
+    <button class="cancel-button" bindtap="hideModal">取消</button>
+  </view>
+</view>

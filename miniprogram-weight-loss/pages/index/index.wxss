@@ -1,0 +1,609 @@
+/* pages/index/index.wxss */
+.weight-display {
+  text-align: center;
+  padding: 60rpx 0;
+}
+
+.weight-number {
+  font-size: 128rpx;
+  font-weight: bold;
+  color: #a8d08d;
+  line-height: 1;
+}
+
+.weight-unit {
+  font-size: 32rpx;
+  color: #999;
+  margin-top: 10rpx;
+}
+
+.progress-bar {
+  height: 24rpx;
+  background: #f0f0f0;
+  border-radius: 12rpx;
+  overflow: hidden;
+  margin: 30rpx 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #a8d08d, #8bc34a);
+  transition: width 0.3s;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.progress-text {
+  color: #a8d08d;
+  font-weight: bold;
+}
+
+.stat-icon {
+  font-size: 48rpx;
+  margin-bottom: 10rpx;
+}
+
+.streak-display {
+  text-align: center;
+  padding: 40rpx 0;
+}
+
+.streak-number {
+  font-size: 96rpx;
+  font-weight: bold;
+  color: #a8d08d;
+}
+
+.streak-label {
+  font-size: 28rpx;
+  color: #999;
+  margin-top: 10rpx;
+}
+
+.card-desc {
+  color: #666;
+  font-size: 28rpx;
+}
+
+.ai-suggestions {
+  background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+  padding: 30rpx;
+  border-radius: 30rpx;
+  border-left: 8rpx solid #a8d08d;
+}
+
+.suggestion-item {
+  margin: 16rpx 0;
+  line-height: 1.6;
+  color: #555;
+  font-size: 28rpx;
+}
+
+/* 健康分析卡片 */
+.health-card {
+  background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+  border-left: 4rpx solid #a8d08d;
+}
+
+.health-score-box {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  margin-bottom: 20rpx;
+}
+
+.score-circle {
+  width: 160rpx;
+  height: 160rpx;
+  background: linear-gradient(135deg, #a8d08d, #8bc34a);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 30rpx;
+  box-shadow: 0 4rpx 12rpx rgba(168, 208, 141, 0.3);
+}
+
+.score-number {
+  font-size: 56rpx;
+  font-weight: bold;
+  color: white;
+  line-height: 1;
+}
+
+.score-label {
+  font-size: 22rpx;
+  color: white;
+  margin-top: 8rpx;
+}
+
+.score-desc {
+  flex: 1;
+}
+
+.score-status {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.score-tip {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.health-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15rpx;
+  margin-bottom: 20rpx;
+}
+
+.health-mini-item {
+  text-align: center;
+  padding: 20rpx;
+  background: white;
+  border-radius: 12rpx;
+}
+
+.mini-icon {
+  font-size: 36rpx;
+  margin-bottom: 8rpx;
+}
+
+.mini-value {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #a8d08d;
+  margin-bottom: 6rpx;
+}
+
+.mini-label {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.sync-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #a8d08d 0%, #8bc34a 100%);
+  color: white;
+  border: none;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  font-size: 26rpx;
+  font-weight: 500;
+}
+
+
+/* 代谢率分析卡片 */
+.metabolism-card {
+  background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+  border: 2rpx solid #a8d08d;
+}
+
+.metabolism-preview {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.metabolism-icon {
+  font-size: 60rpx;
+  width: 100rpx;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 50%;
+}
+
+.metabolism-content {
+  flex: 1;
+}
+
+.metabolism-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.metabolism-desc {
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.5;
+}
+
+.metabolism-features {
+  display: flex;
+  gap: 10rpx;
+  flex-wrap: wrap;
+}
+
+.feature-tag {
+  padding: 8rpx 16rpx;
+  background: white;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+  color: #4caf50;
+  border: 1rpx solid #a8d08d;
+}
+
+/* 聚餐助手卡片 */
+.dining-card {
+  background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+  border-left: 4rpx solid #ffa726;
+}
+
+.dining-preview {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.dining-icon {
+  font-size: 56rpx;
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+}
+
+.dining-content {
+  flex: 1;
+}
+
+.dining-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #e65100;
+  margin-bottom: 8rpx;
+}
+
+.dining-desc {
+  font-size: 24rpx;
+  color: #ef6c00;
+  line-height: 1.5;
+}
+
+.dining-features {
+  display: flex;
+  gap: 10rpx;
+  flex-wrap: wrap;
+}
+
+/* 智能运动计划卡片 */
+.exercise-plan-card {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  border-left: 4rpx solid #66bb6a;
+}
+
+.exercise-plan-preview {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.exercise-plan-icon {
+  font-size: 56rpx;
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+}
+
+.exercise-plan-content {
+  flex: 1;
+}
+
+.exercise-plan-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #2e7d32;
+  margin-bottom: 8rpx;
+}
+
+.exercise-plan-desc {
+  font-size: 24rpx;
+  color: #388e3c;
+  line-height: 1.5;
+}
+
+.exercise-plan-features {
+  display: flex;
+  gap: 10rpx;
+  flex-wrap: wrap;
+}
+
+/* AI情感感知卡片 */
+.emotional-ai-card {
+  background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%);
+  border-left: 4rpx solid #ffc107;
+  margin-bottom: 20rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+.emotional-ai-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 200rpx;
+  height: 200rpx;
+  background: radial-gradient(circle, rgba(255, 193, 7, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.ai-header {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.ai-avatar {
+  font-size: 64rpx;
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  box-shadow: 0 2rpx 8rpx rgba(255, 193, 7, 0.2);
+}
+
+.ai-info {
+  flex: 1;
+}
+
+.ai-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #f57c00;
+  margin-bottom: 6rpx;
+}
+
+.ai-subtitle {
+  font-size: 24rpx;
+  color: #ff8f00;
+  font-weight: 500;
+}
+
+.ai-message {
+  font-size: 28rpx;
+  color: #e65100;
+  line-height: 1.8;
+  margin-bottom: 20rpx;
+  padding: 20rpx;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 12rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.ai-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12rpx;
+  padding: 15rpx;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 10rpx;
+  border-left: 3rpx solid #ffa726;
+  transition: all 0.3s;
+}
+
+.suggestion-item:active {
+  background: rgba(255, 255, 255, 0.9);
+  transform: scale(0.98);
+}
+
+.suggestion-icon {
+  font-size: 28rpx;
+  line-height: 1;
+  margin-top: 2rpx;
+}
+
+.suggestion-text {
+  flex: 1;
+  font-size: 26rpx;
+  color: #ef6c00;
+  line-height: 1.6;
+}
+
+/* 步数和活动能量统计卡片 */
+.stats-card {
+  background: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.stats-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.stats-title {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.stats-icon {
+  font-size: 32rpx;
+}
+
+.stats-title-text {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.stats-arrow {
+  font-size: 40rpx;
+  color: #ccc;
+}
+
+.stats-summary {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 25rpx;
+  line-height: 1.5;
+}
+
+/* 活动能量数值 */
+.calories-value-box {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+  margin-bottom: 30rpx;
+}
+
+.calories-number {
+  font-size: 56rpx;
+  font-weight: bold;
+  color: #ff6b35;
+}
+
+.calories-unit {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 简化的柱状图 */
+.bar-chart {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 180rpx;
+  padding: 0 5rpx;
+  gap: 6rpx;
+}
+
+.bar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.bar-column {
+  width: 100%;
+  height: 140rpx;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.bar-fill {
+  width: 80%;
+  background: #e0e0e0;
+  border-radius: 6rpx 6rpx 0 0;
+  min-height: 8rpx;
+  transition: height 0.3s ease;
+}
+
+.bar-fill.today-bar {
+  background: linear-gradient(180deg, #ff6b35 0%, #ff8c5a 100%);
+  box-shadow: 0 -2rpx 8rpx rgba(255, 107, 53, 0.3);
+}
+
+.bar-label {
+  font-size: 22rpx;
+  color: #999;
+}
+
+/* 健康币卡片 */
+.health-coin-card {
+  background: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%);
+  border: none;
+  box-shadow: 0 8rpx 24rpx rgba(255, 179, 0, 0.3);
+}
+
+.coin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.coin-title {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: white;
+}
+
+.coin-icon {
+  font-size: 40rpx;
+}
+
+.coin-balance {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2rpx 2rpx 4rpx rgba(0, 0, 0, 0.2);
+}
+
+.coin-desc {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 20rpx;
+}
+
+.coin-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20rpx;
+  border-top: 1rpx solid rgba(255, 255, 255, 0.3);
+}
+
+.coin-action-item {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.action-icon {
+  font-size: 28rpx;
+}
+
+.coin-action-arrow {
+  font-size: 40rpx;
+  color: white;
+  font-weight: bold;
+}

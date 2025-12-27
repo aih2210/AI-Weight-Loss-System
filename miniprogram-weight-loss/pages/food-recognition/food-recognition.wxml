@@ -1,0 +1,177 @@
+<!--pages/food-recognition/food-recognition.wxml-->
+<view class="container">
+  <!-- 拍照/选择图片区域 -->
+  <view wx:if="{{!showResult}}" class="card">
+    <view class="card-title">📸 食物识别</view>
+    
+    <view wx:if="{{imagePath}}" class="image-preview">
+      <image src="{{imagePath}}" mode="aspectFit" class="preview-image" />
+    </view>
+    
+    <view wx:else class="camera-box">
+      <view class="camera-icon">📷</view>
+      <view class="camera-text">拍照或选择图片识别食物</view>
+    </view>
+
+    <view class="button-row">
+      <button class="action-button camera-btn" bindtap="takePhoto">
+        📷 拍照识别
+      </button>
+      <button class="action-button album-btn" bindtap="chooseImage">
+        🖼️ 相册选择
+      </button>
+    </view>
+    
+    <view class="button-row">
+      <button class="action-button manual-btn" bindtap="showManualSelectDialog">
+        📝 手动选择食物
+      </button>
+    </view>
+
+    <view wx:if="{{recognizing}}" class="loading-box">
+      <view class="loading-spinner"></view>
+      <view class="loading-text">AI正在识别中...</view>
+    </view>
+  </view>
+
+  <!-- 识别结果 -->
+  <view wx:if="{{showResult}}" class="result-container">
+    <!-- 食物图片 -->
+    <view class="card" wx:if="{{imagePath}}">
+      <image src="{{imagePath}}" mode="aspectFit" class="result-image" />
+    </view>
+
+    <!-- 识别信息 -->
+    <view class="card">
+      <view class="result-header">
+        <view class="food-info">
+          <view class="food-name">{{result.name}}</view>
+          <view class="food-category">{{result.category}}</view>
+        </view>
+        <view class="confidence">置信度: {{result.confidence}}%</view>
+      </view>
+
+      <!-- 份量调整 -->
+      <view class="portion-control">
+        <view class="portion-label">份量调整</view>
+        <view class="portion-adjuster">
+          <button class="adjust-btn" bindtap="adjustPortion" data-change="{{-10}}">-</button>
+          <view class="portion-value">{{result.portion}}克</view>
+          <button class="adjust-btn" bindtap="adjustPortion" data-change="{{10}}">+</button>
+        </view>
+      </view>
+
+      <!-- 营养信息 -->
+      <view class="nutrition-grid">
+        <view class="nutrition-item">
+          <view class="nutrition-value">{{result.calories}}</view>
+          <view class="nutrition-label">卡路里</view>
+        </view>
+        <view class="nutrition-item">
+          <view class="nutrition-value">{{result.protein}}g</view>
+          <view class="nutrition-label">蛋白质</view>
+        </view>
+        <view class="nutrition-item">
+          <view class="nutrition-value">{{result.carbs}}g</view>
+          <view class="nutrition-label">碳水</view>
+        </view>
+        <view class="nutrition-item">
+          <view class="nutrition-value">{{result.fat}}g</view>
+          <view class="nutrition-label">脂肪</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- AI建议 -->
+    <view class="card">
+      <view class="card-title">💡 AI营养建议</view>
+      <view class="suggestions">
+        <view class="suggestion-item" wx:for="{{result.suggestions}}" wx:key="index">
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-buttons">
+      <button class="secondary-button" bindtap="retake">重新识别</button>
+      <button class="primary-button" bindtap="saveToLog">添加到饮食记录</button>
+    </view>
+  </view>
+
+  <!-- 识别历史 -->
+  <view wx:if="{{!showResult && recognitionHistory.length > 0}}" class="card history-card">
+    <view class="history-header">
+      <view class="card-title">🕐 识别历史</view>
+      <view class="clear-history" bindtap="clearHistory">清空</view>
+    </view>
+    <scroll-view scroll-x class="history-scroll">
+      <view class="history-list">
+        <view 
+          class="history-item" 
+          wx:for="{{recognitionHistory}}" 
+          wx:key="timestamp"
+          bindtap="selectFromHistory"
+          data-index="{{index}}"
+        >
+          <view class="history-food-name">{{item.name}}</view>
+          <view class="history-calories">{{item.calories}}卡</view>
+          <view class="history-portion">{{item.portion}}g</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 使用提示 -->
+  <view wx:if="{{!showResult && !recognizing}}" class="card tips-card">
+    <view class="tips-title">💡 使用提示</view>
+    <view class="tips-list">
+      <view class="tip-item">• 拍照时尽量让食物占据画面中心</view>
+      <view class="tip-item">• 光线充足可提高识别准确度</view>
+      <view class="tip-item">• 单一食物识别效果更好</view>
+      <view class="tip-item">• 可以手动选择食物或从历史记录快速添加</view>
+      <view class="tip-item">• 识别后可调整份量和营养数据</view>
+    </view>
+  </view>
+</view>
+
+<!-- 手动选择食物弹窗 -->
+<view wx:if="{{showManualSelect}}" class="modal-overlay" bindtap="closeManualSelect">
+  <view class="modal-content" catchtap="">
+    <view class="modal-header">
+      <view class="modal-title">选择食物</view>
+      <view class="modal-close" bindtap="closeManualSelect">✕</view>
+    </view>
+    
+    <!-- 搜索框 -->
+    <view class="search-box">
+      <input 
+        class="search-input" 
+        placeholder="搜索食物名称或类别"
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+      />
+    </view>
+    
+    <!-- 食物列表 -->
+    <scroll-view scroll-y class="food-list">
+      <view 
+        class="food-item" 
+        wx:for="{{filteredFoods}}" 
+        wx:key="index"
+        bindtap="selectFood"
+        data-food="{{item}}"
+      >
+        <view class="food-item-name">{{item}}</view>
+        <view class="food-item-category">{{foodDatabase[item].category}}</view>
+        <view class="food-item-calories">{{foodDatabase[item].calories}}卡/100g</view>
+      </view>
+      
+      <view wx:if="{{filteredFoods.length === 0}}" class="no-result">
+        <view class="no-result-icon">🔍</view>
+        <view class="no-result-text">未找到相关食物</view>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+

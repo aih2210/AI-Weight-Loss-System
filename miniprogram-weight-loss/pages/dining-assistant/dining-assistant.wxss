@@ -1,0 +1,347 @@
+/* pages/dining-assistant/dining-assistant.wxss */
+.container {
+  padding: 20rpx;
+  background-color: #f0f7e8;
+  min-height: 100vh;
+}
+
+.card {
+  background: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(168, 208, 141, 0.1);
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+/* 位置卡片 */
+.location-card {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-left: 4rpx solid #2196f3;
+}
+
+.location-info {
+  padding: 15rpx 0;
+}
+
+.location-name {
+  font-size: 28rpx;
+  color: #1565c0;
+  font-weight: 500;
+  margin-bottom: 10rpx;
+}
+
+.location-coords {
+  font-size: 24rpx;
+  color: #1976d2;
+}
+
+.btn-location {
+  width: 100%;
+  background: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  font-size: 30rpx;
+}
+
+/* 预算卡片 */
+.budget-card {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  border-left: 4rpx solid #ff9800;
+}
+
+.budget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.budget-title {
+  font-size: 28rpx;
+  color: #e65100;
+  font-weight: 500;
+}
+
+.budget-value {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #ff6f00;
+}
+
+.budget-warning {
+  color: #d32f2f !important;
+}
+
+.budget-tip {
+  margin-top: 15rpx;
+  padding: 12rpx;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  color: #d84315;
+}
+
+/* 表单 */
+.form-item {
+  margin-bottom: 20rpx;
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 15rpx;
+}
+
+.picker-view {
+  padding: 20rpx;
+  border: 2rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  background: #fafafa;
+  color: #333;
+}
+
+/* 按钮 */
+.btn-primary {
+  width: 100%;
+  background: linear-gradient(135deg, #a8d08d 0%, #8bc34a 100%);
+  color: white;
+  border: none;
+  border-radius: 12rpx;
+  padding: 28rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  margin-bottom: 20rpx;
+}
+
+.btn-primary[disabled] {
+  opacity: 0.5;
+}
+
+.btn-secondary {
+  width: 100%;
+  background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
+  color: white;
+  border: none;
+  border-radius: 12rpx;
+  padding: 28rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  margin-bottom: 20rpx;
+}
+
+/* 餐厅列表 */
+.restaurant-list {
+  margin-top: 20rpx;
+}
+
+.restaurant-item {
+  padding: 25rpx;
+  background: #f9f9f9;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+  border: 2rpx solid #e8f5e0;
+  transition: all 0.3s;
+}
+
+.restaurant-item.selected {
+  border-color: #a8d08d;
+  background: #f0f7e8;
+  box-shadow: 0 4rpx 16rpx rgba(168, 208, 141, 0.3);
+}
+
+.restaurant-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15rpx;
+}
+
+.restaurant-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.restaurant-score {
+  font-size: 26rpx;
+  color: #a8d08d;
+  font-weight: bold;
+  background: white;
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.restaurant-info {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 15rpx;
+  flex-wrap: wrap;
+}
+
+.info-item {
+  font-size: 24rpx;
+  color: #666;
+  background: white;
+  padding: 6rpx 12rpx;
+  border-radius: 8rpx;
+}
+
+.restaurant-tags {
+  display: flex;
+  gap: 10rpx;
+  margin-bottom: 15rpx;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 22rpx;
+  color: #8bc34a;
+  background: white;
+  padding: 6rpx 12rpx;
+  border-radius: 20rpx;
+  border: 1rpx solid #a8d08d;
+}
+
+/* 健康指数条 */
+.health-bar {
+  display: flex;
+  align-items: center;
+  gap: 15rpx;
+  margin-bottom: 15rpx;
+  padding: 15rpx;
+  background: white;
+  border-radius: 8rpx;
+}
+
+.health-label {
+  font-size: 24rpx;
+  color: #666;
+  white-space: nowrap;
+}
+
+.health-progress {
+  flex: 1;
+  height: 16rpx;
+  background: #e0e0e0;
+  border-radius: 8rpx;
+  overflow: hidden;
+}
+
+.health-fill {
+  height: 100%;
+  border-radius: 8rpx;
+  transition: width 0.3s;
+}
+
+.health-value {
+  font-size: 24rpx;
+  color: #666;
+  font-weight: 500;
+  min-width: 60rpx;
+  text-align: right;
+}
+
+/* 餐厅操作按钮 */
+.restaurant-actions {
+  display: flex;
+  gap: 15rpx;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 16rpx;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+  border: none;
+  background: white;
+  color: #666;
+}
+
+.action-btn.primary {
+  background: #a8d08d;
+  color: white;
+}
+
+/* 提示卡片 */
+.tips-card {
+  background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+  border-left: 4rpx solid #5c6bc0;
+}
+
+.tips-text {
+  font-size: 26rpx;
+  color: #283593;
+  line-height: 1.8;
+  white-space: pre-line;
+}
+
+/* 健康提示卡片 */
+.health-tips-card {
+  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+  border-left: 4rpx solid #ab47bc;
+}
+
+.tips-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.tip-item {
+  font-size: 26rpx;
+  color: #6a1b9a;
+  line-height: 1.6;
+  padding: 8rpx 0;
+}
+
+/* 筛选器样式 */
+.filter-card {
+  background: linear-gradient(135deg, #f5f5f5 0%, #eeeeee 100%);
+  border-left: 4rpx solid #9e9e9e;
+}
+
+.filter-row {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 15rpx;
+}
+
+.filter-row:last-child {
+  margin-bottom: 0;
+}
+
+.filter-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.filter-item.full-width {
+  flex: none;
+  width: 100%;
+}
+
+.filter-label {
+  font-size: 24rpx;
+  color: #757575;
+  font-weight: 500;
+}
+
+.filter-item .picker-view {
+  background: white;
+  border: 2rpx solid #e0e0e0;
+  padding: 15rpx 20rpx;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+  color: #333;
+}

@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>健康减重管理系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+        
+        /* 顶部导航 */
+        .top-bar {
+            background: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .back-btn {
+            font-size: 24px;
+            cursor: pointer;
+            display: none;
+        }
+        
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .menu-btn {
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* 内容区域 */
+        .content {
+            padding: 15px;
+            padding-bottom: 80px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* 卡片 */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .card-action {
+            color: #4a90e2;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        /* 表单 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+        }
+        
+        /* 按钮 */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #4a90e2;
+            color: white;
+        }
+        
+        .btn-primary:active {
+            background: #357abd;
+        }
+        
+        .btn-secondary {
+            background: #f5f7fa;
+            color: #333;
+        }
+        
+        .btn-danger {
+            background: #ff4757;
+            color: white;
+        }
+        
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4a90e2;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        /* 列表项 */
+        .list-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+        }
+        
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        
+        .list-icon {
+            width: 40px;
+            height: 40px;
+            background: #f0f7ff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+        
+        .list-content {
+            flex: 1;
+        }
+        
+        .list-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 3px;
+        }
+        
+        .list-desc {
+            font-size: 13px;
+            color: #999;
+        }
+        
+        .list-arrow {
+            color: #ccc;
+            font-size: 18px;
+        }
+        
+        /* 开关 */
+        .switch {
+            position: relative;
+            width: 50px;
+            height: 28px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 28px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #4a90e2;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+        
+        /* 日历 */
+        .calendar {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .calendar-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .calendar-nav-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: white;
+        }
+        
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .calendar-weekday {
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            padding: 5px;
+        }
+        
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .calendar-day.today {
+            background: #e3f2fd;
+            color: #4a90e2;
+            font-weight: 600;
+        }
+        
+        .calendar-day.selected {
+            background: #4a90e2;
+            color: white;
+        }
+        
+        .calendar-day.has-reminder::after {
+            content: '';
+            position: absolute;
+            bottom: 3px;
+            width: 4px;
+            height: 4px;
+            background: #ff4757;
+            border-radius: 50%;
+        }
+        
+        .calendar-day.disabled {
+            color: #ccc;
+        }
+        
+        /* 底部导航 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+        
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .nav-item.active {
+            color: #4a90e2;
+        }
+        
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+        
+        .nav-label {
+            font-size: 11px;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        /* 进度条 */
+        .progress-bar {
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4a90e2, #357abd);
+            transition: width 0.3s;
+        }
+        
+        /* 标签 */
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #f0f7ff;
+            color: #4a90e2;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .tag.active {
+            background: #4a90e2;
+            color: white;
+        }
+        
+        /* 提醒项 */
+        .reminder-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .reminder-time {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .reminder-label {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        /* 浮动按钮 */
+        .fab {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background: #4a90e2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+            cursor: pointer;
+            z-index: 99;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="back-btn" onclick="goBack()">←</div>
+        <div class="page-title" id="pageTitle">健康减重</div>
+        <div class="menu-btn" onclick="showMenu()">☰</div>
+    </div>
+    
+    <div class="content" id="content"></div>
+    
+    <div class="fab" id="fab" onclick="quickAdd()">+</div>
+    
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="showHome()">
+            <div class="nav-icon">📊</div>
+            <div class="nav-label">数据</div>
+        </div>
+        <div class="nav-item" onclick="showDiet()">
+            <div class="nav-icon">🍽️</div>
+            <div class="nav-label">饮食</div>
+        </div>
+        <div class="nav-item" onclick="showExercise()">
+            <div class="nav-icon">💪</div>
+            <div class="nav-label">运动</div>
+        </div>
+        <div class="nav-item" onclick="showCalendar()">
+            <div class="nav-icon">📅</div>
+            <div class="nav-label">日历</div>
+        </div>
+        <div class="nav-item" onclick="showProfile()">
+            <div class="nav-icon">👤</div>
+            <div class="nav-label">我的</div>
+        </div>
+    </div>
+    
+    <script>
+        let currentPage = 'home';
+        let pageHistory = [];
+        let userData = {
+            name: '张三',
+            age: 30,
+            gender: 'male',
+            height: 170,
+            currentWeight: 70,
+            targetWeight: 65,
+            startWeight: 75,
+            activityLevel: 'moderate'
+        };
+        
+        let reminders = [
+            { id: 1, time: '08:00', label: '早餐时间', enabled: true, days: [1,2,3,4,5,6,7] },
+            { id: 2, time: '12:00', label: '午餐时间', enabled: true, days: [1,2,3,4,5,6,7] },
+            { id: 3, time: '18:00', label: '晚餐时间', enabled: true, days: [1,2,3,4,5,6,7] },
+            { id: 4, time: '21:00', label: '记录今日数据', enabled: true, days: [1,2,3,4,5,6,7] }
+        ];
+        
+        // 导航函数
+        function navigateTo(page, title) {
+            pageHistory.push(currentPage);
+            currentPage = page;
+            document.getElementById('pageTitle').textContent = title;
+            document.querySelector('.back-btn').style.display = 'block';
+            document.querySelector('.bottom-nav').style.display = 'none';
+            document.getElementById('fab').style.display = 'none';
+        }
+        
+        function goBack() {
+            if (pageHistory.length > 0) {
+                currentPage = pageHistory.pop();
+                document.querySelector('.back-btn').style.display = pageHistory.length > 0 ? 'block' : 'none';
+                
+                if (pageHistory.length === 0) {
+                    document.querySelector('.bottom-nav').style.display = 'flex';
+                    document.getElementById('fab').style.display = 'flex';
+                }
+                
+                switch(currentPage) {
+                    case 'home': showHome(); break;
+                    case 'diet': showDiet(); break;
+                    case 'exercise': showExercise(); break;
+                    case 'calendar': showCalendar(); break;
+                    case 'profile': showProfile(); break;
+                }
+            }
+        }
+        
+        function updateNavActive(index) {
+            document.querySelectorAll('.nav-item').forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+        }

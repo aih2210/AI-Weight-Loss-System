@@ -1,0 +1,76 @@
+﻿<!--pages/emotion-log/emotion-log.wxml-->
+<view class="container">
+  <!-- 智能干预提示 -->
+  <view wx:if="{{intervention}}" class="intervention-card">
+    <view class="intervention-header">
+      <view class="intervention-title">{{intervention.title}}</view>
+      <view class="close-btn" bindtap="closeIntervention">×</view>
+    </view>
+    <view class="intervention-content">
+      <view class="intervention-actions">
+        <view class="action-item" wx:for="{{intervention.actions}}" wx:key="*this">
+          {{index + 1}}. {{item}}
+        </view>
+      </view>
+      <view class="intervention-warning">⚠️ {{intervention.avoidFood}}</view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">😊 你现在的情绪</view>
+    <view class="mood-grid">
+      <view 
+        class="mood-item {{moodIndex === index ? 'active' : ''}}" 
+        wx:for="{{moods}}" 
+        wx:key="value"
+        bindtap="selectMood"
+        data-index="{{index}}">
+        <view class="mood-icon">{{item.icon}}</view>
+        <view class="mood-text">{{item.label}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">📝 简短日记（选填）</view>
+    <textarea 
+      class="textarea-field" 
+      placeholder="记录此刻的想法和感受..." 
+      value="{{notes}}"
+      bindinput="onNotesInput"
+      maxlength="500"></textarea>
+  </view>
+
+  <button class="submit-button" bindtap="saveEmotion">
+    💾 保存记录
+  </button>
+
+  <!-- 情绪模式分析按钮 -->
+  <button class="analysis-button" bindtap="viewPatternAnalysis">
+    🧠 查看情绪模式分析
+  </button>
+
+  <!-- 历史记录 -->
+  <view wx:if="{{emotionHistory.length > 0}}" class="card">
+    <view class="card-title">📊 情绪历史</view>
+    <view class="emotion-item" wx:for="{{emotionHistory}}" wx:key="id">
+      <view class="emotion-header">
+        <view class="emotion-mood">{{item.icon}} {{item.mood}}</view>
+        <view class="emotion-date">{{item.date}}</view>
+      </view>
+      <view wx:if="{{item.notes}}" class="emotion-note">{{item.notes}}</view>
+      <view class="emotion-analysis">💡 {{item.analysis}}</view>
+      <view class="delete-btn" bindtap="deleteEmotion" data-index="{{index}}">删除</view>
+    </view>
+  </view>
+
+  <view class="card tips-card">
+    <view class="card-title">💡 情绪与减重</view>
+    <view class="tips-text">
+      • 情绪会影响饮食行为和代谢\n
+      • 识别情绪性进食的触发因素\n
+      • 用健康方式应对负面情绪\n
+      • 保持情绪稳定有助于减重成功
+    </view>
+  </view>
+</view>

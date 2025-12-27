@@ -1,0 +1,228 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- AI情感感知卡片 -->
+  <view class="card emotional-ai-card">
+    <view class="ai-header">
+      <view class="ai-avatar">{{emotionalState.emoji}}</view>
+      <view class="ai-info">
+        <view class="ai-title">AI小助手</view>
+        <view class="ai-subtitle">{{emotionalState.encouragement}}</view>
+      </view>
+    </view>
+    <view class="ai-message">{{emotionalState.message}}</view>
+    <view wx:if="{{emotionalState.suggestions.length > 0}}" class="ai-suggestions">
+      <view class="suggestion-item" wx:for="{{emotionalState.suggestions}}" wx:key="text">
+        <view class="suggestion-icon">{{item.icon}}</view>
+        <view class="suggestion-text">{{item.text}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 健康币卡片 -->
+  <view class="card health-coin-card" bindtap="goToHealthCoin">
+    <view class="coin-header">
+      <view class="coin-title">
+        <text class="coin-icon">💰</text>
+        <text>健康币</text>
+      </view>
+      <view class="coin-balance">{{healthCoins}}</view>
+    </view>
+    <view class="coin-desc">完成任务赚健康币，兑换九安医疗产品</view>
+    <view class="coin-actions">
+      <view class="coin-action-item">
+        <text class="action-icon">📅</text>
+        <text class="action-text">每日签到</text>
+      </view>
+      <view class="coin-action-item">
+        <text class="action-icon">🏪</text>
+        <text class="action-text">健康商城</text>
+      </view>
+      <view class="coin-action-arrow">→</view>
+    </view>
+  </view>
+
+  <!-- 体重卡片 -->
+  <view class="card" bindtap="goToWeightUpdate">
+    <view class="card-title">
+      当前体重
+      <text class="arrow">›</text>
+    </view>
+    <view class="weight-display">
+      <view class="weight-number">{{userData.user.currentWeight}}</view>
+      <view class="weight-unit">KG</view>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{progress}}%"></view>
+    </view>
+    <view class="progress-labels">
+      <text>初始: {{userData.user.startWeight}}kg</text>
+      <text class="progress-text">{{progress}}% 完成</text>
+      <text>目标: {{userData.user.targetWeight}}kg</text>
+    </view>
+  </view>
+
+  <!-- 活动能量卡片 -->
+  <view class="card stats-card">
+    <view class="stats-header">
+      <view class="stats-title">
+        <view class="stats-icon">🔥</view>
+        <view class="stats-title-text">活动能量</view>
+      </view>
+      <view class="stats-arrow">›</view>
+    </view>
+    
+    <view class="stats-summary">你过去7天每天平均消耗 {{avgCalories}} 千卡。</view>
+    
+    <view class="calories-value-box">
+      <view class="calories-number">{{avgCalories}}</view>
+      <view class="calories-unit">千卡</view>
+    </view>
+    
+    <!-- 简化的柱状图 -->
+    <view class="bar-chart">
+      <view class="bar-item" wx:for="{{weeklyCalories}}" wx:key="day">
+        <view class="bar-column">
+          <view class="bar-fill {{item.isToday ? 'today-bar' : ''}}" 
+                style="height: {{item.calories > 0 ? (item.calories / (avgCalories * 2.5) * 100) : 5}}%"></view>
+        </view>
+        <view class="bar-label">{{item.day}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 健康分析 -->
+  <view class="card health-card" bindtap="goToHealthAnalysis">
+    <view class="card-title">
+      📊 健康分析
+      <text class="arrow">›</text>
+    </view>
+    
+    <view class="health-score-box">
+      <view class="score-circle">
+        <view class="score-number">{{healthScore}}</view>
+        <view class="score-label">健康评分</view>
+      </view>
+      <view class="score-desc">
+        <view class="score-status">
+          {{healthScore >= 80 ? '优秀' : healthScore >= 60 ? '良好' : healthScore >= 40 ? '一般' : '需改善'}}
+        </view>
+        <view class="score-tip">点击查看详细分析</view>
+      </view>
+    </view>
+
+    <view class="health-mini-grid">
+      <view class="health-mini-item">
+        <view class="mini-icon">🚶</view>
+        <view class="mini-value">{{steps}}</view>
+        <view class="mini-label">步数</view>
+      </view>
+      <view class="health-mini-item">
+        <view class="mini-icon">❤️</view>
+        <view class="mini-value">{{heartRate || '--'}}</view>
+        <view class="mini-label">心率</view>
+      </view>
+      <view class="health-mini-item">
+        <view class="mini-icon">😴</view>
+        <view class="mini-value">{{sleep || '--'}}h</view>
+        <view class="mini-label">睡眠</view>
+      </view>
+    </view>
+
+    <button class="sync-btn" bindtap="syncHealthData" catchtap="syncHealthData">
+      🔄 同步健康数据
+    </button>
+  </view>
+
+  <!-- 今日数据 -->
+  <view class="card">
+    <view class="card-title">今日数据</view>
+    <view class="stats-grid">
+      <view class="stat-box">
+        <view class="stat-icon">🔥</view>
+        <view class="stat-label">摄入</view>
+        <view class="stat-value" style="color: #ff6b6b;">{{todayCalories}}</view>
+        <view class="stat-label">kcal</view>
+      </view>
+      <view class="stat-box">
+        <view class="stat-icon">💪</view>
+        <view class="stat-label">消耗</view>
+        <view class="stat-value" style="color: #a8d08d;">{{todayExercise}}</view>
+        <view class="stat-label">kcal</view>
+      </view>
+      <view class="stat-box">
+        <view class="stat-icon">⚖️</view>
+        <view class="stat-label">净摄入</view>
+        <view class="stat-value">{{netCalories}}</view>
+        <view class="stat-label">kcal</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 代谢率分析 -->
+  <view class="card metabolism-card" bindtap="goToMetabolismAnalysis">
+    <view class="card-title">
+      🧠 代谢率分析
+      <text class="arrow">›</text>
+    </view>
+    <view class="metabolism-preview">
+      <view class="metabolism-icon">🔬</view>
+      <view class="metabolism-content">
+        <view class="metabolism-title">AI智能预测</view>
+        <view class="metabolism-desc">基于机器学习的代谢率预测和平台期预警</view>
+      </view>
+    </view>
+    <view class="metabolism-features">
+      <view class="feature-tag">✓ 代谢率预测</view>
+      <view class="feature-tag">✓ 平台期检测</view>
+      <view class="feature-tag">✓ 突破建议</view>
+    </view>
+  </view>
+
+  <!-- 连续打卡 -->
+  <view class="card">
+    <view class="card-title">🔥 连续打卡</view>
+    <view class="streak-display">
+      <view class="streak-number">{{streak}}</view>
+      <view class="streak-label">天</view>
+    </view>
+  </view>
+
+  <!-- 情绪记录 -->
+  <view class="card" bindtap="goToEmotionLog">
+    <view class="card-title">
+      😊 情绪记录
+      <text class="arrow">›</text>
+    </view>
+    <view class="card-desc">记录你的情绪和进食欲望</view>
+  </view>
+
+  <!-- 聚餐助手 -->
+  <view class="card dining-card" bindtap="goToDiningAssistant">
+    <view class="card-title">
+      🍽️ 聚餐助手
+      <text class="arrow">›</text>
+    </view>
+    <view class="dining-preview">
+      <view class="dining-icon">📍</view>
+      <view class="dining-content">
+        <view class="dining-title">智能餐厅推荐</view>
+        <view class="dining-desc">基于位置推荐健康餐厅，提供餐前餐后建议</view>
+      </view>
+    </view>
+    <view class="dining-features">
+      <view class="feature-tag">✓ 附近餐厅</view>
+      <view class="feature-tag">✓ 餐前建议</view>
+      <view class="feature-tag">✓ 餐后调整</view>
+    </view>
+  </view>
+
+  <!-- AI智能建议 -->
+  <view class="card">
+    <view class="card-title">🤖 AI智能建议</view>
+    <view class="ai-suggestions">
+      <view class="suggestion-item">🎉 太棒了！你已减重{{weightLost}}kg，保持当前节奏</view>
+      <view class="suggestion-item">💡 建议今天增加10分钟有氧运动，帮助突破平台期</view>
+      <view class="suggestion-item">🥗 晚餐可以尝试低卡沙拉，既美味又健康</view>
+    </view>
+  </view>
+</view>

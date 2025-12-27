@@ -1,0 +1,74 @@
+﻿/* pages/weight-update/weight-update.wxss */
+.container {
+  padding: 20rpx;
+  background-color: #f0f7e8;
+  min-height: 100vh;
+}
+
+.card {
+  background: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(168, 208, 141, 0.1);
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.weight-input-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx 0;
+}
+
+.weight-input {
+  font-size: 96rpx;
+  font-weight: bold;
+  color: #a8d08d;
+  text-align: center;
+  border: none;
+  width: 300rpx;
+}
+
+.weight-unit {
+  font-size: 48rpx;
+  color: #999;
+  margin-left: 20rpx;
+}
+
+.submit-button {
+  width: 100%;
+  background: linear-gradient(135deg, #a8d08d 0%, #8bc34a 100%);
+  color: white;
+  border: none;
+  border-radius: 12rpx;
+  padding: 28rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  margin-top: 40rpx;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.history-date {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.history-weight {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #a8d08d;
+}

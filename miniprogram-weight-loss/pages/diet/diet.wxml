@@ -1,0 +1,77 @@
+<!--pages/diet/diet.wxml-->
+<view class="container">
+  <!-- 功能卡片 -->
+  <view class="card" bindtap="goToFoodRecognition">
+    <view class="card-title">
+      📸 拍照识别食物
+      <text class="arrow">›</text>
+    </view>
+    <view class="card-desc">AI智能识别食物并估算营养成分</view>
+  </view>
+
+  <view class="card" bindtap="goToRecipeGenerator">
+    <view class="card-title">
+      👨‍🍳 AI食谱生成
+      <text class="arrow">›</text>
+    </view>
+    <view class="card-desc">生成低卡、高满足感的替代食谱</view>
+  </view>
+
+  <view class="card" bindtap="showManualInput">
+    <view class="card-title">
+      ✏️ 手动输入
+      <text class="arrow">›</text>
+    </view>
+    <view class="card-desc">手动记录饮食和营养信息</view>
+  </view>
+
+  <!-- 今日用餐记录 -->
+  <view class="card">
+    <view class="card-title">今日用餐记录</view>
+    <view wx:if="{{todayLogs.length > 0}}">
+      <view class="list-item" wx:for="{{todayLogs}}" wx:key="id">
+        <view class="list-icon">{{mealIcons[item.meal]}}</view>
+        <view class="list-content">
+          <view class="list-title">{{item.meal}}</view>
+          <view class="list-desc">{{item.name}} · {{item.portion}}g</view>
+        </view>
+        <view class="list-value">{{item.calories}}</view>
+      </view>
+    </view>
+    <view wx:else class="empty-state">
+      今天还没有记录哦
+    </view>
+  </view>
+</view>
+
+<!-- 手动输入弹窗 -->
+<view class="modal" wx:if="{{showModal}}" catchtap="hideModal">
+  <view class="modal-content" catchtap="stopPropagation">
+    <view class="modal-title">手动输入饮食</view>
+    
+    <view class="form-item">
+      <view class="form-label">食物名称</view>
+      <input class="form-input" placeholder="例如：鸡胸肉" bindinput="onFoodNameInput" />
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">份量（克）</view>
+      <input class="form-input" type="number" placeholder="输入份量" bindinput="onPortionInput" />
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">卡路里</view>
+      <input class="form-input" type="number" placeholder="输入卡路里" bindinput="onCaloriesInput" />
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">餐次</view>
+      <picker mode="selector" range="{{mealTypes}}" bindchange="onMealChange">
+        <view class="form-input">{{mealTypes[mealIndex]}}</view>
+      </picker>
+    </view>
+    
+    <view class="btn-primary" bindtap="saveFoodLog">保存记录</view>
+    <view class="btn-secondary" bindtap="hideModal">取消</view>
+  </view>
+</view>

@@ -1,0 +1,87 @@
+/* pages/privacy-settings/privacy-settings.wxss */
+.section-title {
+  font-size: 28rpx;
+  color: #999;
+  margin-bottom: 20rpx;
+  font-weight: 500;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.setting-item:last-child {
+  border-bottom: none;
+}
+
+.setting-info {
+  flex: 1;
+  margin-right: 20rpx;
+}
+
+.setting-title {
+  font-size: 30rpx;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.setting-desc {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.setting-status {
+  font-size: 26rpx;
+  color: #a8d08d;
+  font-weight: 500;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 25rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+.list-icon {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+}
+
+.list-content {
+  flex: 1;
+}
+
+.list-title {
+  font-size: 30rpx;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+.list-desc {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.danger-text {
+  color: #ff4444;
+}
+
+.permission-status {
+  font-size: 26rpx;
+  color: #666;
+  margin-right: 10rpx;
+}
+
+.arrow {
+  font-size: 32rpx;
+  color: #ccc;
+}

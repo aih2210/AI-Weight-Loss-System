@@ -1,0 +1,108 @@
+<!--pages/exercise/exercise.wxml-->
+<view class="container">
+  <!-- 智能运动计划卡片 -->
+  <view class="card plan-card" bindtap="goToExercisePlan">
+    <view class="plan-header">
+      <view class="plan-title">🏃 智能运动计划</view>
+      <view class="plan-arrow">›</view>
+    </view>
+    <view wx:if="{{hasActivePlan}}" class="plan-preview">
+      <view class="plan-info">
+        <view class="plan-stat">
+          <view class="plan-stat-label">本周训练</view>
+          <view class="plan-stat-value">{{planStats.trainingDays}}天</view>
+        </view>
+        <view class="plan-stat">
+          <view class="plan-stat-label">预期消耗</view>
+          <view class="plan-stat-value">{{planStats.totalCalories}}卡</view>
+        </view>
+      </view>
+      <view wx:if="{{todayPlan}}" class="today-plan">
+        <view class="today-plan-label">今日计划</view>
+        <view class="today-plan-content">{{todayPlan.focus}} · {{todayPlan.totalTime}}分钟</view>
+      </view>
+    </view>
+    <view wx:else class="plan-empty">
+      <view class="plan-empty-text">还没有运动计划，点击生成个性化方案</view>
+    </view>
+  </view>
+
+  <!-- 今日运动目标 -->
+  <view class="card">
+    <view class="card-title">今日运动目标</view>
+    <view class="stats-grid">
+      <view class="stat-box">
+        <view class="stat-label">已完成</view>
+        <view class="stat-value" style="color: #a8d08d;">{{todayExercise}}</view>
+        <view class="stat-label">kcal</view>
+      </view>
+      <view class="stat-box">
+        <view class="stat-label">目标</view>
+        <view class="stat-value">{{target}}</view>
+        <view class="stat-label">kcal</view>
+      </view>
+      <view class="stat-box">
+        <view class="stat-label">完成度</view>
+        <view class="stat-value" style="color: #ff9800;">{{progress}}%</view>
+        <view class="stat-label">继续加油</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 今日运动记录 -->
+  <view class="card">
+    <view class="card-title">今日运动记录</view>
+    <view wx:if="{{todayLogs.length > 0}}">
+      <view class="exercise-item" wx:for="{{todayLogs}}" wx:key="id">
+        <view class="exercise-header">
+          <view class="exercise-name">{{item.type}}</view>
+          <view class="exercise-calories">-{{item.calories}} kcal</view>
+        </view>
+        <view class="exercise-details">{{item.duration}}分钟</view>
+        <view wx:if="{{item.notes}}" class="exercise-notes">{{item.notes}}</view>
+      </view>
+    </view>
+    <view wx:else class="empty-text">
+      今天还没有运动记录
+    </view>
+  </view>
+
+  <!-- 添加运动按钮 -->
+  <button class="add-button" bindtap="showAddExercise">
+    ➕ 添加运动记录
+  </button>
+</view>
+
+<!-- 添加运动弹窗 -->
+<view wx:if="{{showModal}}" class="modal" bindtap="hideModal">
+  <view class="modal-content" catchtap="stopPropagation">
+    <view class="modal-title">添加运动记录</view>
+    
+    <view class="form-item">
+      <view class="label">运动类型</view>
+      <picker mode="selector" range="{{exerciseTypes}}" value="{{exerciseIndex}}" bindchange="onExerciseChange">
+        <view class="picker-display">{{exerciseTypes[exerciseIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <view class="label">运动时长（分钟）</view>
+      <input class="input-field" type="digit" placeholder="请输入运动时长" value="{{duration}}" bindinput="onDurationInput" />
+    </view>
+
+    <view class="form-item">
+      <view class="label">消耗卡路里（自动计算）</view>
+      <input class="input-field" type="digit" placeholder="自动计算" value="{{calories}}" bindinput="onCaloriesInput" />
+    </view>
+
+    <view class="form-item">
+      <view class="label">备注（可选）</view>
+      <textarea class="textarea-field" placeholder="记录运动感受..." value="{{notes}}" bindinput="onNotesInput" maxlength="200" />
+    </view>
+
+    <view class="button-group">
+      <button class="cancel-button" bindtap="hideModal">取消</button>
+      <button class="submit-button" bindtap="saveExerciseLog">保存</button>
+    </view>
+  </view>
+</view>

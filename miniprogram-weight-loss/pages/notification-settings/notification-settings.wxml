@@ -1,0 +1,144 @@
+<!--pages/notification-settings/notification-settings.wxml-->
+<view class="container">
+  <!-- 通知总开关 -->
+  <view class="card">
+    <view class="setting-item highlight">
+      <view class="setting-info">
+        <view class="setting-title">通知总开关</view>
+        <view class="setting-desc">关闭后将不再接收任何通知</view>
+      </view>
+      <switch checked="{{notificationEnabled}}" bindchange="onNotificationEnabledChange" color="#a8d08d"/>
+    </view>
+  </view>
+
+  <!-- 提醒设置 -->
+  <view class="card">
+    <view class="section-title">提醒设置</view>
+    
+    <view class="setting-item">
+      <view class="setting-info">
+        <view class="setting-title">饮食记录提醒</view>
+        <view class="setting-desc">提醒记录每日饮食</view>
+      </view>
+      <switch checked="{{dietReminder}}" bindchange="onDietReminderChange" color="#a8d08d" disabled="{{!notificationEnabled}}"/>
+    </view>
+
+    <view class="setting-item">
+      <view class="setting-info">
+        <view class="setting-title">运动打卡提醒</view>
+        <view class="setting-desc">提醒完成每日运动</view>
+      </view>
+      <switch checked="{{exerciseReminder}}" bindchange="onExerciseReminderChange" color="#a8d08d" disabled="{{!notificationEnabled}}"/>
+    </view>
+
+    <view class="setting-item">
+      <view class="setting-info">
+        <view class="setting-title">体重记录提醒</view>
+        <view class="setting-desc">每周提醒记录体重</view>
+      </view>
+      <switch checked="{{weightReminder}}" bindchange="onWeightReminderChange" color="#a8d08d" disabled="{{!notificationEnabled}}"/>
+    </view>
+
+    <view class="setting-item">
+      <view class="setting-info">
+        <view class="setting-title">喝水提醒</view>
+        <view class="setting-desc">定时提醒喝水</view>
+      </view>
+      <switch checked="{{waterReminder}}" bindchange="onWaterReminderChange" color="#a8d08d" disabled="{{!notificationEnabled}}"/>
+    </view>
+  </view>
+
+  <!-- 提醒时间 -->
+  <view class="card">
+    <view class="section-title">提醒时间</view>
+    
+    <view class="list-item" bindtap="setBreakfastTime">
+      <view class="list-icon">🌅</view>
+      <view class="list-content">
+        <view class="list-title">早餐时间</view>
+        <view class="list-desc">{{breakfastTime}}</view>
+      </view>
+      <text class="arrow">›</text>
+    </view>
+
+    <view class="list-item" bindtap="setLunchTime">
+      <view class="list-icon">☀️</view>
+      <view class="list-content">
+        <view class="list-title">午餐时间</view>
+        <view class="list-desc">{{lunchTime}}</view>
+      </view>
+      <text class="arrow">›</text>
+    </view>
+
+    <view class="list-item" bindtap="setDinnerTime">
+      <view class="list-icon">🌙</view>
+      <view class="list-content">
+        <view class="list-title">晚餐时间</view>
+        <view class="list-desc">{{dinnerTime}}</view>
+      </view>
+      <text class="arrow">›</text>
+    </view>
+
+    <view class="list-item" bindtap="setExerciseTime">
+      <view class="list-icon">💪</view>
+      <view class="list-content">
+        <view class="list-title">运动时间</view>
+        <view class="list-desc">{{exerciseTime}}</view>
+      </view>
+      <text class="arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 推送设置 -->
+  <view class="card">
+    <view class="section-title">推送设置</view>
+    
+    <view class="setting-item">
+      <view class="setting-info">
+        <view class="setting-title">AI建议推送</view>
+        <view class="setting-desc">接收个性化建议</view>
+      </view>
+      <switch checked="{{aiSuggestion}}" bindchange="onAiSuggestionChange" color="#a8d08d" disabled="{{!notificationEnabled}}"/>
+    </view>
+
+    <view class="setting-item">
+      <view class="setting-info">
+        <view class="setting-title">进度更新</view>
+        <view class="setting-desc">接收减重进度通知</view>
+      </view>
+      <switch checked="{{progressUpdate}}" bindchange="onProgressUpdateChange" color="#a8d08d" disabled="{{!notificationEnabled}}"/>
+    </view>
+
+    <view class="setting-item">
+      <view class="setting-info">
+        <view class="setting-title">成就通知</view>
+        <view class="setting-desc">达成目标时通知</view>
+      </view>
+      <switch checked="{{achievementNotification}}" bindchange="onAchievementNotificationChange" color="#a8d08d" disabled="{{!notificationEnabled}}"/>
+    </view>
+  </view>
+
+  <!-- 免打扰 -->
+  <view class="card">
+    <view class="section-title">免打扰</view>
+    
+    <view class="setting-item">
+      <view class="setting-info">
+        <view class="setting-title">免打扰模式</view>
+        <view class="setting-desc">{{dndStartTime}} - {{dndEndTime}}</view>
+      </view>
+      <switch checked="{{dndEnabled}}" bindchange="onDndEnabledChange" color="#a8d08d" disabled="{{!notificationEnabled}}"/>
+    </view>
+
+    <view wx:if="{{dndEnabled}}" class="time-range-picker">
+      <view class="time-picker-item" bindtap="setDndStartTime">
+        <view class="time-label">开始时间</view>
+        <view class="time-value">{{dndStartTime}}</view>
+      </view>
+      <view class="time-picker-item" bindtap="setDndEndTime">
+        <view class="time-label">结束时间</view>
+        <view class="time-value">{{dndEndTime}}</view>
+      </view>
+    </view>
+  </view>
+</view>

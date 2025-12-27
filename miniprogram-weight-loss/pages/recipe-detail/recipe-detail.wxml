@@ -1,0 +1,170 @@
+<!--pages/recipe-detail/recipe-detail.wxml-->
+<view class="container" wx:if="{{recipe}}">
+  <!-- 头部信息 -->
+  <view class="header-card">
+    <view class="recipe-title">{{recipe.name}}</view>
+    <view class="recipe-meta">
+      <view class="meta-item">
+        <view class="meta-icon">⏱️</view>
+        <view class="meta-text">{{recipe.time}}分钟</view>
+      </view>
+      <view class="meta-item">
+        <view class="meta-icon">👨‍🍳</view>
+        <view class="meta-text">{{recipe.difficulty}}</view>
+      </view>
+      <view class="meta-item">
+        <view class="meta-icon">🍽️</view>
+        <view class="meta-text">{{recipe.servings}}人份</view>
+      </view>
+    </view>
+    <view class="recipe-tags">
+      <view class="tag" wx:for="{{recipe.tags}}" wx:key="*this">{{item}}</view>
+    </view>
+  </view>
+
+  <!-- 营养概览 -->
+  <view class="nutrition-overview">
+    <view class="nutrition-item">
+      <view class="nutrition-value">{{recipe.calories}}</view>
+      <view class="nutrition-label">卡路里</view>
+      <view class="nutrition-unit">kcal</view>
+    </view>
+    <view class="nutrition-item">
+      <view class="nutrition-value">{{recipe.protein}}</view>
+      <view class="nutrition-label">蛋白质</view>
+      <view class="nutrition-unit">g</view>
+    </view>
+    <view class="nutrition-item">
+      <view class="nutrition-value">{{recipe.carbs}}</view>
+      <view class="nutrition-label">碳水</view>
+      <view class="nutrition-unit">g</view>
+    </view>
+    <view class="nutrition-item">
+      <view class="nutrition-value">{{recipe.fat}}</view>
+      <view class="nutrition-label">脂肪</view>
+      <view class="nutrition-unit">g</view>
+    </view>
+  </view>
+
+  <!-- 标签页切换 -->
+  <view class="tabs">
+    <view 
+      class="tab-item {{currentTab === 0 ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-tab="0">
+      🛒 食材清单
+    </view>
+    <view 
+      class="tab-item {{currentTab === 1 ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-tab="1">
+      👨‍🍳 制作步骤
+    </view>
+    <view 
+      class="tab-item {{currentTab === 2 ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-tab="2">
+      💡 小贴士
+    </view>
+  </view>
+
+  <!-- 食材清单 -->
+  <view class="tab-content" wx:if="{{currentTab === 0}}">
+    <view class="card">
+      <view class="card-title">🛒 所需食材</view>
+      <view class="ingredients-list">
+        <view class="ingredient-item" wx:for="{{recipe.ingredients}}" wx:key="name">
+          <view class="ingredient-checkbox">✓</view>
+          <view class="ingredient-info">
+            <view class="ingredient-name">{{item.name}}</view>
+            <view class="ingredient-note" wx:if="{{item.note}}">{{item.note}}</view>
+          </view>
+          <view class="ingredient-amount">{{item.amount}}</view>
+        </view>
+      </view>
+    </view>
+
+    <button class="btn-primary" bindtap="startCooking">
+      🔥 开始烹饪
+    </button>
+  </view>
+
+  <!-- 制作步骤 -->
+  <view class="tab-content" wx:if="{{currentTab === 1}}">
+    <view class="progress-bar">
+      <view class="progress-text">
+        完成进度：{{completedSteps.length}}/{{recipe.steps.length}}
+      </view>
+      <view class="progress-track">
+        <view 
+          class="progress-fill" 
+          style="width: {{(completedSteps.length / recipe.steps.length) * 100}}%">
+        </view>
+      </view>
+    </view>
+
+    <view class="steps-list">
+      <view 
+        class="step-item {{completedSteps.indexOf(index) > -1 ? 'completed' : ''}}" 
+        wx:for="{{recipe.steps}}" 
+        wx:key="step"
+        bindtap="toggleStep"
+        data-index="{{index}}">
+        <view class="step-header">
+          <view class="step-number">
+            <view class="step-num-text">{{item.step}}</view>
+            <view class="step-checkmark" wx:if="{{completedSteps.indexOf(index) > -1}}">✓</view>
+          </view>
+          <view class="step-title-wrapper">
+            <view class="step-title">{{item.title}}</view>
+            <view class="step-time">⏱️ {{item.time}}</view>
+          </view>
+        </view>
+        <view class="step-content">{{item.content}}</view>
+        <view class="step-tips" wx:if="{{item.tips}}">
+          <view class="tips-icon">💡</view>
+          <view class="tips-text">{{item.tips}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 小贴士 -->
+  <view class="tab-content" wx:if="{{currentTab === 2}}">
+    <view class="card">
+      <view class="card-title">👨‍🍳 烹饪技巧</view>
+      <view class="tips-list">
+        <view class="tip-item" wx:for="{{recipe.cookingTips}}" wx:key="*this">
+          <view class="tip-bullet">•</view>
+          <view class="tip-text">{{item}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">🌟 营养亮点</view>
+      <view class="highlights-list">
+        <view class="highlight-item" wx:for="{{recipe.nutritionHighlights}}" wx:key="*this">
+          <view class="highlight-icon">✓</view>
+          <view class="highlight-text">{{item}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-actions">
+    <button class="action-btn" bindtap="addToFavorites">
+      <view class="btn-icon">❤️</view>
+      <view class="btn-text">收藏</view>
+    </button>
+    <button class="action-btn" bindtap="shareRecipe">
+      <view class="btn-icon">📤</view>
+      <view class="btn-text">分享</view>
+    </button>
+    <button class="action-btn" bindtap="goBack">
+      <view class="btn-icon">🔙</view>
+      <view class="btn-text">返回</view>
+    </button>
+  </view>
+</view>

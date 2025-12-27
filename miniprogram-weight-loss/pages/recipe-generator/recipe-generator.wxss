@@ -1,0 +1,206 @@
+﻿/* pages/recipe-generator/recipe-generator.wxss */
+.container {
+  padding: 20rpx;
+  background-color: #f0f7e8;
+  min-height: 100vh;
+}
+
+.card {
+  background: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(168, 208, 141, 0.1);
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.form-item {
+  margin-bottom: 30rpx;
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 15rpx;
+}
+
+.form-input {
+  width: 100%;
+  padding: 20rpx;
+  border: 2rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  background: #fafafa;
+  box-sizing: border-box;
+}
+
+.picker-view {
+  padding: 20rpx;
+  border: 2rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  background: #fafafa;
+  color: #333;
+}
+
+.btn-primary {
+  width: 100%;
+  background: linear-gradient(135deg, #a8d08d 0%, #8bc34a 100%);
+  color: white;
+  border: none;
+  border-radius: 12rpx;
+  padding: 28rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 20rpx;
+}
+
+.btn-primary[disabled] {
+  opacity: 0.6;
+}
+
+.recipe-list {
+  margin-top: 20rpx;
+}
+
+.recipe-item {
+  padding: 25rpx;
+  background: #f9f9f9;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+  border: 2rpx solid #e8f5e0;
+}
+
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15rpx;
+}
+
+.recipe-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.recipe-calories {
+  font-size: 26rpx;
+  color: #a8d08d;
+  font-weight: bold;
+  background: #f0f7e8;
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.recipe-info {
+  display: flex;
+  gap: 15rpx;
+  margin-bottom: 15rpx;
+  flex-wrap: wrap;
+}
+
+.info-tag {
+  font-size: 24rpx;
+  color: #666;
+  background: white;
+  padding: 6rpx 12rpx;
+  border-radius: 8rpx;
+}
+
+.recipe-nutrition {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 15rpx;
+  padding: 15rpx;
+  background: white;
+  border-radius: 8rpx;
+}
+
+.nutrition-item {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.recipe-tags {
+  display: flex;
+  gap: 10rpx;
+  margin-bottom: 15rpx;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 22rpx;
+  color: #8bc34a;
+  background: #f0f7e8;
+  padding: 6rpx 12rpx;
+  border-radius: 20rpx;
+}
+
+.recipe-actions {
+  display: flex;
+  gap: 15rpx;
+  margin-bottom: 10rpx;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 16rpx;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+  border: none;
+}
+
+.view-btn {
+  background: #a8d08d;
+  color: white;
+}
+
+.delete-btn {
+  background: #ffebee;
+  color: #f44336;
+}
+
+.recipe-time {
+  font-size: 22rpx;
+  color: #999;
+  text-align: right;
+}
+
+.empty-text {
+  text-align: center;
+  color: #999;
+  font-size: 28rpx;
+  padding: 60rpx 0;
+}
+
+
+/* 个性化推荐标签 */
+.personalized-badge {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  padding: 12rpx 16rpx;
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  border-radius: 8rpx;
+  margin-bottom: 15rpx;
+  border-left: 4rpx solid #ff9800;
+}
+
+.badge-icon {
+  font-size: 28rpx;
+}
+
+.badge-text {
+  font-size: 24rpx;
+  color: #e65100;
+  font-weight: 500;
+  flex: 1;
+}

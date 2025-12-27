@@ -1,0 +1,92 @@
+<!--pages/health-analysis/health-analysis.wxml-->
+<view class="container">
+  <!-- 健康数据卡片 -->
+  <view class="card">
+    <view class="card-title">📊 今日健康数据</view>
+    
+    <view class="health-grid">
+      <view class="health-item">
+        <view class="health-icon">🚶</view>
+        <view class="health-value">{{steps}}</view>
+        <view class="health-label">步数</view>
+      </view>
+      <view class="health-item">
+        <view class="health-icon">❤️</view>
+        <view class="health-value">{{heartRate}}</view>
+        <view class="health-label">心率(bpm)</view>
+      </view>
+      <view class="health-item">
+        <view class="health-icon">😴</view>
+        <view class="health-value">{{sleep}}h</view>
+        <view class="health-label">睡眠</view>
+      </view>
+      <view class="health-item">
+        <view class="health-icon">🔥</view>
+        <view class="health-value">{{calories}}</view>
+        <view class="health-label">消耗(kcal)</view>
+      </view>
+      <view class="health-item">
+        <view class="health-icon">📍</view>
+        <view class="health-value">{{distance}}</view>
+        <view class="health-label">距离(km)</view>
+      </view>
+    </view>
+
+    <view class="sync-bar">
+      <button class="sync-button" bindtap="syncWearableData">
+        🔄 同步数据
+      </button>
+      <button class="connect-button" bindtap="goToDeviceManagement">
+        ⌚ 连接设备
+      </button>
+    </view>
+  </view>
+
+  <!-- AI健康建议 -->
+  <view class="card">
+    <view class="card-title">💡 AI健康建议</view>
+    <view class="recommendation-list">
+      <view 
+        class="recommendation-item {{item.type}}" 
+        wx:for="{{recommendations}}" 
+        wx:key="title">
+        <view class="rec-header">
+          <view class="rec-icon">{{item.icon}}</view>
+          <view class="rec-title">{{item.title}}</view>
+        </view>
+        <view class="rec-content">{{item.content}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷功能 -->
+  <view class="card">
+    <view class="card-title">⚡ 快捷功能</view>
+    <view class="quick-actions">
+      <view class="action-item" bindtap="viewHistory">
+        <view class="action-icon">📈</view>
+        <view class="action-text">历史数据</view>
+      </view>
+      <view class="action-item" bindtap="goToMedication">
+        <view class="action-icon">💊</view>
+        <view class="action-text">用药记录</view>
+      </view>
+      <view class="action-item" bindtap="goToDeviceManagement">
+        <view class="action-icon">⌚</view>
+        <view class="action-text">设备管理</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 健康提示 -->
+  <view class="card tips-card">
+    <view class="tips-title">💡 健康小贴士</view>
+    <view class="tips-text">
+      • 每天至少走10000步\n
+      • 保持心率在正常范围(60-100)\n
+      • 保证7-8小时优质睡眠\n
+      • 定期监测健康数据\n
+      • 异常数据及时就医
+    </view>
+  </view>
+</view>

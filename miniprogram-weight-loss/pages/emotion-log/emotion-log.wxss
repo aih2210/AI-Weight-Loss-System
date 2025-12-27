@@ -1,0 +1,251 @@
+/* pages/emotion-log/emotion-log.wxss */
+.container {
+  padding: 20rpx;
+  background-color: #f0f7e8;
+  min-height: 100vh;
+}
+
+.form-section {
+  background: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(168, 208, 141, 0.1);
+}
+
+.form-item {
+  margin-bottom: 30rpx;
+}
+
+.label {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 15rpx;
+  font-weight: 500;
+}
+
+.mood-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20rpx;
+}
+
+.mood-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx;
+  background: #f5f5f5;
+  border-radius: 12rpx;
+  border: 2rpx solid transparent;
+}
+
+.mood-item.active {
+  background: #e8f5e0;
+  border-color: #a8d08d;
+}
+
+.mood-icon {
+  font-size: 48rpx;
+  margin-bottom: 10rpx;
+}
+
+.mood-text {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.input-field {
+  width: 100%;
+  padding: 20rpx;
+  border: 2rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  background: #fafafa;
+}
+
+.textarea-field {
+  width: 100%;
+  min-height: 200rpx;
+  padding: 20rpx;
+  border: 2rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  background: #fafafa;
+}
+
+.submit-button {
+  width: 100%;
+  background: linear-gradient(135deg, #a8d08d 0%, #8bc34a 100%);
+  color: white;
+  border: none;
+  border-radius: 12rpx;
+  padding: 28rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  margin-top: 20rpx;
+}
+
+.history-section {
+  background: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  box-shadow: 0 2rpx 12rpx rgba(168, 208, 141, 0.1);
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.emotion-item {
+  padding: 20rpx;
+  background: #f9f9f9;
+  border-radius: 12rpx;
+  margin-bottom: 15rpx;
+  border-left: 4rpx solid #a8d08d;
+}
+
+.emotion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.emotion-mood {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.emotion-date {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.emotion-note {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+.empty-text {
+  text-align: center;
+  color: #999;
+  font-size: 28rpx;
+  padding: 60rpx 0;
+}
+
+/* 智能干预提示 */
+.intervention-card {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(255, 152, 0, 0.2);
+  border: 2rpx solid #ff9800;
+}
+
+.intervention-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.intervention-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #e65100;
+}
+
+.close-btn {
+  font-size: 48rpx;
+  color: #ff9800;
+  line-height: 1;
+  padding: 0 10rpx;
+}
+
+.intervention-content {
+  font-size: 26rpx;
+  color: #5d4037;
+}
+
+.intervention-actions {
+  margin-bottom: 20rpx;
+}
+
+.action-item {
+  padding: 10rpx 0;
+  line-height: 1.6;
+}
+
+.intervention-warning {
+  padding: 15rpx;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 8rpx;
+  font-weight: 500;
+  color: #d84315;
+}
+
+/* 分析按钮 */
+.analysis-button {
+  width: 100%;
+  background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
+  color: white;
+  border: none;
+  border-radius: 12rpx;
+  padding: 28rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  margin-top: 20rpx;
+}
+
+/* 卡片样式 */
+.card {
+  background: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(168, 208, 141, 0.1);
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.emotion-analysis {
+  margin-top: 10rpx;
+  padding: 15rpx;
+  background: #e8f5e0;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  color: #558b2f;
+  line-height: 1.6;
+}
+
+.delete-btn {
+  margin-top: 15rpx;
+  text-align: right;
+  color: #f44336;
+  font-size: 24rpx;
+  padding: 10rpx;
+}
+
+.tips-card {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-left: 4rpx solid #2196f3;
+}
+
+.tips-text {
+  font-size: 26rpx;
+  color: #1565c0;
+  line-height: 1.8;
+  white-space: pre-line;
+}

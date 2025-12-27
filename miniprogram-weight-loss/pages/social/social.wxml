@@ -1,0 +1,66 @@
+<!--pages/social/social.wxml-->
+<view class="container">
+  <view class="card">
+    <view class="card-title">🎫 我的邀请码</view>
+    <view class="code-box">
+      <view class="code-text">{{myCode}}</view>
+      <button class="copy-button" bindtap="copyCode">复制</button>
+    </view>
+    <view class="hint-text">分享给好友，一起减重更有动力！</view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">👥 我的健身搭子</view>
+    
+    <view wx:if="{{friends.length > 0}}">
+      <view class="friend-item" wx:for="{{friends}}" wx:key="id">
+        <view class="friend-avatar">{{item.avatar}}</view>
+        <view class="friend-info" bindtap="viewFriendDetail" data-friend="{{item}}">
+          <view class="friend-name">{{item.name}}</view>
+          <view class="friend-stats">已减{{item.weightLost}}kg · 坚持{{item.days}}天</view>
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{item.progress}}%"></view>
+          </view>
+        </view>
+        <button class="cheer-button" bindtap="sendEncouragement" data-friend="{{item}}">
+          💪 加油
+        </button>
+      </view>
+    </view>
+    
+    <view wx:else class="empty-text">
+      还没有健身搭子，快去添加吧！
+    </view>
+  </view>
+
+  <button class="add-button" bindtap="showAddFriend">
+    ➕ 添加健身搭子
+  </button>
+
+  <view class="card tips-card">
+    <view class="tips-title">💡 健身搭子的好处</view>
+    <view class="tips-text">
+      • 互相监督，提高坚持率\n
+      • 分享经验，共同进步\n
+      • 相互鼓励，保持动力\n
+      • 良性竞争，激发潜力
+    </view>
+  </view>
+</view>
+
+<!-- 添加好友弹窗 -->
+<view wx:if="{{showAddModal}}" class="modal" bindtap="hideModal">
+  <view class="modal-content" catchtap="stopPropagation">
+    <view class="modal-title">添加健身搭子</view>
+    
+    <view class="form-item">
+      <view class="label">输入对方的邀请码</view>
+      <input class="input-field" placeholder="请输入邀请码" value="{{friendCode}}" bindinput="onCodeInput" />
+    </view>
+
+    <view class="button-group">
+      <button class="cancel-button" bindtap="hideModal">取消</button>
+      <button class="submit-button" bindtap="addFriend">添加</button>
+    </view>
+  </view>
+</view>

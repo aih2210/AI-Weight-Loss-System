@@ -1,0 +1,96 @@
+<!--pages/health-coin/health-coin.wxml-->
+<view class="container">
+  <!-- 签到动画 -->
+  <view wx:if="{{showCheckInAnimation}}" class="check-in-animation">
+    <view class="coin-rain">
+      <text class="coin">💰</text>
+      <text class="coin">💰</text>
+      <text class="coin">💰</text>
+      <text class="coin">💰</text>
+      <text class="coin">💰</text>
+    </view>
+  </view>
+
+  <!-- 余额卡片 -->
+  <view class="balance-card">
+    <view class="balance-header">
+      <view class="balance-title">我的健康币</view>
+      <view class="rule-btn" bindtap="viewRules">规则</view>
+    </view>
+    <view class="balance-amount">
+      <text class="coin-icon">💰</text>
+      <text class="amount">{{balance}}</text>
+    </view>
+    <view class="balance-stats">
+      <view class="stat-item">
+        <view class="stat-value">{{statistics.totalEarned}}</view>
+        <view class="stat-label">累计获得</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value">{{statistics.consecutiveDays}}</view>
+        <view class="stat-label">连续签到</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value">{{statistics.totalSpent}}</view>
+        <view class="stat-label">累计消费</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 每日任务 -->
+  <view class="section">
+    <view class="section-title">📋 每日任务</view>
+    <view class="task-list">
+      <view 
+        class="task-item {{item.completed ? 'completed' : ''}}" 
+        wx:for="{{dailyTasks}}" 
+        wx:key="id"
+        bindtap="viewTaskDetail"
+        data-task="{{item}}">
+        <view class="task-icon">{{item.icon}}</view>
+        <view class="task-info">
+          <view class="task-name">{{item.name}}</view>
+          <view class="task-reward">+{{item.coins}} 健康币</view>
+        </view>
+        <view class="task-status">
+          <text wx:if="{{item.completed}}" class="status-done">✓</text>
+          <text wx:else class="status-todo">→</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 最近记录 -->
+  <view class="section">
+    <view class="section-header">
+      <view class="section-title">📊 最近记录</view>
+      <view class="view-all" bindtap="viewHistory">查看全部 →</view>
+    </view>
+    <view class="history-list">
+      <view class="history-item" wx:for="{{recentHistory}}" wx:key="timestamp">
+        <view class="history-left">
+          <view class="history-reason">{{item.reason}}</view>
+          <view class="history-time">{{item.timestamp}}</view>
+        </view>
+        <view class="history-right">
+          <view class="history-amount {{item.type}}">
+            {{item.type === 'earn' ? '+' : '-'}}{{item.amount}}
+          </view>
+        </view>
+      </view>
+      <view wx:if="{{recentHistory.length === 0}}" class="empty-tip">
+        暂无记录，快去完成任务吧！
+      </view>
+    </view>
+  </view>
+
+  <!-- 前往商城按钮 -->
+  <view class="mall-button" bindtap="goToMall">
+    <view class="mall-icon">🏪</view>
+    <view class="mall-text">
+      <view class="mall-title">健康商城</view>
+      <view class="mall-desc">健康币+现金，优惠购买医疗产品</view>
+    </view>
+    <view class="mall-arrow">→</view>
+  </view>
+</view>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试通义千问API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            display: none;
+        }
+        
+        .result.show {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .result h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .result-content {
+            color: #555;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .success {
+            border-left: 4px solid #4caf50;
+        }
+        
+        .error {
+            border-left: 4px solid #f44336;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .info-box p {
+            color: #1976d2;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 测试通义千问API</h1>
+        <p class="subtitle">在集成到小程序前，先测试你的API Key是否可用</p>
+        
+        <div class="info-box">
+            <p>
+                💡 <strong>提示：</strong>这个页面可以帮你快速测试API Key是否正确配置。
+                测试成功后，就可以在小程序中使用了！
+            </p>
+        </div>
+        
+        <div class="input-group">
+            <label for="apiKey">🔑 API Key</label>
+            <input 
+                type="text" 
+                id="apiKey" 
+                placeholder="输入你的通义千问API Key (sk-...)"
+                autocomplete="off"
+            >
+        </div>
+        
+        <div class="input-group">
+            <label for="question">💬 测试问题</label>
+            <textarea 
+                id="question" 
+                placeholder="输入你想问的问题，例如：如何科学减重？"
+            >如何科学减重？</textarea>
+        </div>
+        
+        <button id="testBtn" onclick="testAPI()">
+            🚀 测试API
+        </button>
+        
+        <div id="result" class="result">
+            <h3 id="resultTitle">结果</h3>
+            <div id="resultContent" class="result-content"></div>
+        </div>
+    </div>
+    
+    <script>
+        async function testAPI() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const question = document.getElementById('question').value.trim();
+            const resultDiv = document.getElementById('result');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultContent = document.getElementById('resultContent');
+            const testBtn = document.getElementById('testBtn');
+            
+            // 验证输入
+            if (!apiKey) {
+                alert('请输入API Key');
+                return;
+            }
+            
+            if (!question) {
+                alert('请输入测试问题');
+                return;
+            }
+            
+            // 显示加载状态
+            testBtn.disabled = true;
+            testBtn.innerHTML = '<span class="loading"></span> 测试中...';
+            resultDiv.classList.remove('show', 'success', 'error');
+            
+            try {
+                const response = await fetch('https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: 'qwen-turbo',
+                        input: {
+                            messages: [
+                                {
+                                    role: 'system',
+                                    content: '你是一个专业的AI减重助手，提供科学、友好的减重建议。'
+                                },
+                                {
+                                    role: 'user',
+                                    content: question
+                                }
+                            ]
+                        },
+                        parameters: {
+                            result_format: 'message',
+                            max_tokens: 800,
+                            temperature: 0.7
+                        }
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.output) {
+                    // 成功
+                    resultTitle.textContent = '✅ 测试成功！';
+                    resultContent.textContent = data.output.choices[0].message.content;
+                    resultDiv.classList.add('show', 'success');
+                    
+                    // 显示使用信息
+                    const usage = data.usage;
+                    if (usage) {
+                        resultContent.textContent += `\n\n📊 使用统计：\n输入tokens: ${usage.input_tokens}\n输出tokens: ${usage.output_tokens}\n总计: ${usage.total_tokens}`;
+                    }
+                } else {
+                    // API返回错误
+                    throw new Error(data.message || '未知错误');
+                }
+                
+            } catch (error) {
+                // 失败
+                resultTitle.textContent = '❌ 测试失败';
+                resultContent.textContent = `错误信息：${error.message}\n\n可能的原因：\n1. API Key不正确\n2. 网络连接问题\n3. API服务异常\n4. 账户余额不足\n\n请检查后重试。`;
+                resultDiv.classList.add('show', 'error');
+            } finally {
+                // 恢复按钮状态
+                testBtn.disabled = false;
+                testBtn.innerHTML = '🚀 测试API';
+            }
+        }
+        
+        // 回车发送
+        document.getElementById('question').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                testAPI();
+            }
+        });
+    </script>
+</body>
+</html>

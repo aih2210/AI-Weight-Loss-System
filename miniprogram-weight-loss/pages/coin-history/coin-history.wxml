@@ -1,0 +1,52 @@
+<!--pages/coin-history/coin-history.wxml-->
+<view class="container">
+  <!-- 筛选标签 -->
+  <view class="filter-tabs">
+    <view 
+      class="filter-item {{filterType === 'all' ? 'active' : ''}}"
+      bindtap="switchFilter"
+      data-type="all">
+      全部
+    </view>
+    <view 
+      class="filter-item {{filterType === 'earn' ? 'active' : ''}}"
+      bindtap="switchFilter"
+      data-type="earn">
+      收入
+    </view>
+    <view 
+      class="filter-item {{filterType === 'spend' ? 'active' : ''}}"
+      bindtap="switchFilter"
+      data-type="spend">
+      支出
+    </view>
+  </view>
+
+  <!-- 历史记录列表 -->
+  <view class="history-list">
+    <view class="history-item" wx:for="{{filteredHistory}}" wx:key="timestamp">
+      <view class="history-left">
+        <view class="history-icon {{item.type}}">
+          <text wx:if="{{item.type === 'earn'}}">📥</text>
+          <text wx:else>📤</text>
+        </view>
+        <view class="history-info">
+          <view class="history-reason">{{item.reason}}</view>
+          <view class="history-time">{{item.timestamp}}</view>
+        </view>
+      </view>
+      <view class="history-right">
+        <view class="history-amount {{item.type}}">
+          {{item.type === 'earn' ? '+' : '-'}}{{item.amount}}
+        </view>
+        <view class="history-balance">余额: {{item.balance}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:if="{{filteredHistory.length === 0}}" class="empty-state">
+    <view class="empty-icon">📊</view>
+    <view class="empty-text">暂无记录</view>
+  </view>
+</view>

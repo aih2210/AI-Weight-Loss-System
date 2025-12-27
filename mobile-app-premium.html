@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI减重助手 - 高级版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background: #f0f7e8;
+            border-radius: 40px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        /* 状态栏 */
+        .status-bar {
+            height: 44px;
+            background: transparent;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+        
+        /* 头部 */
+        .header {
+            background: transparent;
+            padding: 60px 20px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .greeting {
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .greeting strong {
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .smile-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        /* 内容区域 */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 20px 80px;
+        }
+        
+        /* 体重圆环卡片 */
+        .weight-circle-card {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            position: relative;
+        }
+        
+        .circle-container {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            position: relative;
+        }
+        
+        .weight-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .weight-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .weight-unit {
+            font-size: 16px;
+            color: #999;
+        }
+        
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .progress-ring {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 5px;
+        }
+        
+        /* 饮食卡片 */
+        .diet-card {
+            background: white;
+            border-radius: 30px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .calorie-ring {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+        
+        .calorie-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .calorie-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .calorie-label {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .nutrition-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+        
+        .nutrition-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .nutrition-name {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 3px;
+        }
+        
+        .nutrition-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        /* 图表 */
+        .chart-container {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .chart-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .chart-tab {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+            color: #666;
+        }
+        
+        .chart-tab.active {
+            background: #a8d08d;
+            color: white;
+        }
+        
+        /* 底部导航 */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            background: white;
+            border-top: 1px solid #f0f0f0;
+            height: 70px;
+            padding-bottom: 10px;
+        }
+        
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-item.active {
+            color: #a8d08d;
+        }
+        
+        .nav-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 3px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .nav-item.active .nav-icon {
+            background: #a8d08d;
+            color: white;
+        }
+        
+        .nav-label {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .nav-item.active .nav-label {
+            color: #a8d08d;
+        }
+        
+        /* 浮动按钮 */
+        .fab {
+            position: absolute;
+            bottom: 90px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #a8d08d 0%, #8bc34a 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(168, 208, 141, 0.4);
+            z-index: 50;
+        }
+        
+        .fab:hover {
+            transform: scale(1.1);
+        }
+        
+        /* 隐藏类 */
+        .hidden {
+            display: none;
+        }
+        
+        /* SVG圆环 */
+        .progress-circle {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-circle-bg {
+            fill: none;
+            stroke: #f0f0f0;
+            stroke-width: 12;
+        }
+        
+        .progress-circle-fill {
+            fill: none;
+            stroke: #a8d08d;
+            stroke-width: 12;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+        
+        /* 餐次标签 */
+        .meal-tags {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .meal-tag {
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .meal-tag.active {
+            background: #a8d08d;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>📶 🔋</span>
+        </div>
+        
+        <!-- 头部 -->
+        <div class="header">
+            <div class="greeting">
+                <div style="color: #999; font-size: 14px;">历史体重周报！</div>
+                <strong>点击查看</strong>
+            </div>
+            <div class="smile-icon">😊</div>
+        </div>
+        
+        <!-- 内容区域 -->
+        <div class="content" id="content">
+            <!-- 首页 - 体重页面 -->
+            <div id="home-screen">
+                <!-- 体重圆环卡片 -->
+                <div class="weight-circle-card">
+                    <div style="text-align: center; color: #999; font-size: 14px; margin-bottom: 10px;">
+                        当前体重
+                    </div>
+                    
+                    <div class="circle-container">
+                        <svg width="200" height="200">
+                            <circle cx="100" cy="100" r="85" fill="none" stroke="#f0f0f0" stroke-width="15"/>
+                            <circle cx="100" cy="100" r="85" fill="none" stroke="#a8d08d" stroke-width="15"
+                                    stroke-dasharray="534" stroke-dashoffset="160" 
+                                    stroke-linecap="round" transform="rotate(-90 100 100)"/>
+                            <!-- 小图标 -->
+                            <text x="100" y="30" text-anchor="middle" font-size="20">🎯</text>
+                            <text x="170" y="100" text-anchor="middle" font-size="20">💪</text>
+                            <text x="100" y="170" text-anchor="middle" font-size="20">🔥</text>
+                            <text x="30" y="100" text-anchor="middle" font-size="20">⭐</text>
+                        </svg>
+                        <div class="weight-value">
+                            <div class="weight-number">56</div>
+                            <div class="weight-unit">KG</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-row">
+                        <div class="stat-item">
+                            <div class="stat-label">初始体重(kg)</div>
+                            <div class="stat-value">60</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="progress-ring">
+                                <svg width="60" height="60">
+                                    <circle cx="30" cy="30" r="25" fill="none" stroke="#f0f0f0" stroke-width="6"/>
+                                    <circle cx="30" cy="30" r="25" fill="none" stroke="#a8d08d" stroke-width="6"
+                                            stroke-dasharray="157" stroke-dashoffset="47" 
+                                            stroke-linecap="round" transform="rotate(-90 30 30)"/>
+                                    <text x="30" y="35" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">70%</text>
+                                </svg>
+                            </div>
+                            <div class="stat-label">完成度</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">目标体重(kg)</div>
+                            <div class="stat-value">50</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <div class="stats-row">
+                            <div class="stat-item">
+                                <div class="stat-label">合规减重(kg)</div>
+                                <div class="stat-value">15</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">只需减重(kg)</div>
+                                <div class="stat-value">6</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; padding: 15px; background: #f0f7e8; border-radius: 15px; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #a8d08d; font-size: 20px;">📊</span>
+                        <span style="color: #666; font-size: 14px;">BMI:19.9 标准</span>
+                        <div style="flex: 1;"></div>
+                        <span style="color: #a8d08d; font-size: 20px;">📈</span>
+                        <span style="color: #666; font-size: 14px;">身体围度记录</span>
+                    </div>
+                </div>
+                
+                <!-- 体重统计图表 -->
+                <div class="weight-circle-card">
+                    <div class="card-title">体重统计</div>
+                    
+                    <div class="chart-tabs">
+                        <div class="chart-tab active">按周</div>
+                        <div class="chart-tab">按月</div>
+                        <div class="chart-tab">按年</div>
+                        <div style="flex: 1;"></div>
+                        <div class="chart-tab">柱状</div>
+                        <div class="chart-tab">折线</div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <div style="text-align: right; color: #a8d08d; font-size: 14px; margin-bottom: 10px;">
+                            ◀ 3.10-3.16 ▶
+                        </div>
+                        <svg width="100%" height="150" style="overflow: visible;">
+                            <!-- 柱状图 -->
+                            <rect x="10" y="90" width="35" height="60" fill="#a8d08d" rx="5"/>
+                            <rect x="60" y="70" width="35" height="80" fill="#a8d08d" rx="5"/>
+                            <rect x="110" y="40" width="35" height="110" fill="#a8d08d" rx="5"/>
+                            <rect x="160" y="60" width="35" height="90" fill="#a8d08d" rx="5"/>
+                            <rect x="210" y="80" width="35" height="70" fill="#e0e0e0" rx="5"/>
+                            <rect x="260" y="80" width="35" height="70" fill="#e0e0e0" rx="5"/>
+                            
+                            <!-- 日期标签 -->
+                            <text x="27" y="165" text-anchor="middle" font-size="11" fill="#999">周一</text>
+                            <text x="77" y="165" text-anchor="middle" font-size="11" fill="#999">周二</text>
+                            <text x="127" y="165" text-anchor="middle" font-size="11" fill="#999">周三</text>
+                            <text x="177" y="165" text-anchor="middle" font-size="11" fill="#999">今天</text>
+                            <text x="227" y="165" text-anchor="middle" font-size="11" fill="#999">周五</text>
+                            <text x="277" y="165" text-anchor="middle" font-size="11" fill="#999">周六</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 饮食页面 -->
+            <div id="diet-screen" class="hidden">
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <div class="meal-tag active">饮食</div>
+                    <div class="meal-tag">运动</div>
+                </div>
+                
+                <!-- 卡路里圆环 -->
+                <div class="diet-card">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div style="color: #999; font-size: 14px;">今日目标可摄入</div>
+                    </div>
+                    
+                    <div class="calorie-ring">
+                        <svg width="180" height="180">
+                            <circle cx="90" cy="90" r="75" fill="none" stroke="#f0f0f0" stroke-width="12"/>
+                            <circle cx="90" cy="90" r="75" fill="none" stroke="#a8d08d" stroke-width="12"
+                                    stroke-dasharray="471" stroke-dashoffset="150" 
+                                    stroke-linecap="round" transform="rotate(-90 90 90)"/>
+                        </svg>
+                        <div class="calorie-center">
+                            <div class="calorie-number">1221.22</div>
+                            <div class="calorie-label">千卡</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-row" style="margin-top: 20px;">
+                        <div class="stat-item">
+                            <div class="stat-label">饮食摄入</div>
+                            <div class="stat-value" style="color: #ff6b6b;">418</div>
+                            <div class="stat-label">千卡</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">运动消耗</div>
+                            <div class="stat-value" style="color: #a8d08d;">153</div>
+                            <div class="stat-label">千卡</div>
+                        </div>
+                    </div>
+                    
+                    <div class="nutrition-grid">
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">🥩</div>
+                            <div class="nutrition-name">蛋白质</div>
+                            <div class="nutrition-value">315g</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">🍞</div>
+                            <div class="nutrition-name">碳水</div>
+                            <div class="nutrition-value">317g</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">🧈</div>
+                            <div class="nutrition-name">脂肪</div>
+                            <div class="nutrition-value">100g</div>
+                        </div>
+                    </div>
+                    
+                    <div class="meal-tags">
+                        <div class="meal-tag">+早餐</div>
+                        <div class="meal-tag">+午餐</div>
+                        <div class="meal-tag">+晚餐</div>
+                        <div class="meal-tag">+加餐</div>
+                    </div>
+                </div>
+                
+                <!-- 饮食统计 -->
+                <div class="diet-card">
+                    <div class="card-title">饮食统计</div>
+                    
+                    <div class="chart-tabs">
+                        <div class="chart-tab active">按周</div>
+                        <div class="chart-tab">按月</div>
+                        <div class="chart-tab">按年</div>
+                        <div style="flex: 1;"></div>
+                        <div class="chart-tab">柱状</div>
+                        <div class="chart-tab active">曲线</div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <div style="text-align: right; color: #a8d08d; font-size: 14px; margin-bottom: 10px;">
+                            ◀ 3.10-3.16 ▶
+                        </div>
+                        <svg width="100%" height="120">
+                            <!-- 曲线图 -->
+                            <path d="M 10 80 Q 50 60, 80 70 T 150 50 T 220 60 T 290 55" 
+                                  fill="none" stroke="#a8d08d" stroke-width="3" stroke-linecap="round"/>
+                            <!-- 填充区域 -->
+                            <path d="M 10 80 Q 50 60, 80 70 T 150 50 T 220 60 T 290 55 L 290 120 L 10 120 Z" 
+                                  fill="rgba(168, 208, 141, 0.2)"/>
+                            <!-- 数据点 -->
+                            <circle cx="10" cy="80" r="4" fill="#a8d08d"/>
+                            <circle cx="80" cy="70" r="4" fill="#a8d08d"/>
+                            <circle cx="150" cy="50" r="4" fill="#a8d08d"/>
+                            <circle cx="220" cy="60" r="4" fill="#a8d08d"/>
+                            <circle cx="290" cy="55" r="6" fill="#a8d08d"/>
+                            
+                            <!-- 当前值标签 -->
+                            <rect x="260" y="35" width="50" height="25" fill="#a8d08d" rx="12"/>
+                            <text x="285" y="52" text-anchor="middle" font-size="12" fill="white" font-weight="bold">992千卡</text>
+                        </svg>
+                        
+                        <div style="display: flex; justify-content: space-between; margin-top: 10px; padding: 0 10px;">
+                            <span style="font-size: 11px; color: #999;">03/10</span>
+                            <span style="font-size: 11px; color: #999;">03/12</span>
+                            <span style="font-size: 11px; color: #999;">03/14</span>
+                            <span style="font-size: 11px; color: #999;">03/16</span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; text-align: center; color: #999; font-size: 14px;">
+                        <span>输入饮食 ▶</span>
+                        <span style="margin: 0 20px;">添加饮食 ▶</span>
+                        <span>运动消耗 ▶</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部导航 -->
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="switchTab('home')">
+                <div class="nav-icon">📊</div>
+                <div class="nav-label">体重</div>
+            </div>
+            <div class="nav-item" onclick="switchTab('diet')">
+                <div class="nav-icon">🍽️</div>
+                <div class="nav-label">饮食</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon">🏃</div>
+                <div class="nav-label">运动</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon">📧</div>
+                <div class="nav-label">食谱</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon">⏰</div>
+                <div class="nav-label">我的</div>
+            </div>
+        </div>
+        
+        <!-- 浮动按钮 -->
+        <div class="fab" onclick="alert('📸 拍照识别\n📁 从相册选择\n✏️ 手动输入')">+</div>
+    </div>
+    
+    <script>
+        function switchTab(tab) {
+            // 隐藏所有页面
+            document.getElementById('home-screen').classList.add('hidden');
+            document.getElementById('diet-screen').classList.add('hidden');
+            
+            // 移除所有active状态
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // 显示对应页面
+            const screens = {
+                'home': 'home-screen',
+                'diet': 'diet-screen'
+            };
+            
+            if (screens[tab]) {
+                document.getElementById(screens[tab]).classList.remove('hidden');
+            }
+            
+            // 设置active状态
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>

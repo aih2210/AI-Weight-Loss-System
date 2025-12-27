@@ -1,0 +1,325 @@
+/* pages/exercise-plan/exercise-plan.wxss */
+.container {
+  padding: 20rpx;
+  background-color: #f0f7e8;
+  min-height: 100vh;
+}
+
+.card {
+  background: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(168, 208, 141, 0.1);
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.card-desc {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 最小可行方案卡片 */
+.minimal-plan-card {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(255, 152, 0, 0.3);
+  border: 2rpx solid #ff9800;
+}
+
+.minimal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.minimal-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #e65100;
+}
+
+.close-btn {
+  font-size: 48rpx;
+  color: #ff9800;
+  line-height: 1;
+  padding: 0 10rpx;
+}
+
+.minimal-content {
+  font-size: 26rpx;
+  color: #5d4037;
+}
+
+.encouragement {
+  margin-bottom: 20rpx;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.minimal-plan-info {
+  padding: 20rpx;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.plan-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #e65100;
+  margin-bottom: 10rpx;
+}
+
+.plan-duration {
+  font-size: 24rpx;
+  color: #ef6c00;
+}
+
+.btn-minimal {
+  width: 100%;
+  background: #ff9800;
+  color: white;
+  border: none;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  font-size: 30rpx;
+}
+
+/* 预期效果卡片 */
+.results-card {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-left: 4rpx solid #2196f3;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.result-item {
+  text-align: center;
+  padding: 20rpx;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 12rpx;
+}
+
+.result-value {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #1565c0;
+  margin-bottom: 8rpx;
+}
+
+.result-label {
+  font-size: 22rpx;
+  color: #1976d2;
+}
+
+.result-desc {
+  font-size: 24rpx;
+  color: #1565c0;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* 周计划 */
+.weekly-plan {
+  display: flex;
+  flex-direction: column;
+  gap: 15rpx;
+}
+
+.day-card {
+  padding: 25rpx;
+  border-radius: 12rpx;
+  border: 2rpx solid #e0e0e0;
+  transition: all 0.3s;
+}
+
+.training-day {
+  background: linear-gradient(135deg, #f0f7e8 0%, #e8f5e0 100%);
+  border-color: #a8d08d;
+}
+
+.rest-day {
+  background: #f5f5f5;
+  opacity: 0.8;
+}
+
+.day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15rpx;
+}
+
+.day-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.day-badge {
+  font-size: 22rpx;
+  color: #8bc34a;
+  background: white;
+  padding: 6rpx 12rpx;
+  border-radius: 20rpx;
+}
+
+.rest-badge {
+  font-size: 22rpx;
+  color: #999;
+  background: white;
+  padding: 6rpx 12rpx;
+  border-radius: 20rpx;
+}
+
+.day-info {
+  display: flex;
+  gap: 30rpx;
+  margin-bottom: 15rpx;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.info-icon {
+  font-size: 24rpx;
+}
+
+.info-text {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.activities-preview {
+  display: flex;
+  gap: 10rpx;
+  flex-wrap: wrap;
+}
+
+.activity-tag {
+  font-size: 22rpx;
+  color: #8bc34a;
+  background: white;
+  padding: 6rpx 12rpx;
+  border-radius: 20rpx;
+}
+
+/* 表单 */
+.form-label {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 15rpx;
+  font-weight: 500;
+}
+
+.picker-view {
+  padding: 20rpx;
+  border: 2rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  background: #fafafa;
+  color: #333;
+}
+
+.tag-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15rpx;
+}
+
+.tag-item {
+  padding: 20rpx;
+  text-align: center;
+  border: 2rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+  color: #666;
+  background: #fafafa;
+  transition: all 0.3s ease;
+  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.05);
+}
+
+.tag-item.selected {
+  background: linear-gradient(135deg, #a8d08d 0%, #8bc34a 100%);
+  color: white;
+  border-color: #8bc34a;
+  font-weight: 600;
+  box-shadow: 0 4rpx 12rpx rgba(168, 208, 141, 0.4);
+  transform: scale(1.02);
+}
+
+.tag-item:active {
+  transform: scale(0.98);
+  opacity: 0.8;
+}
+
+/* 按钮 */
+.btn-primary {
+  width: 100%;
+  background: linear-gradient(135deg, #a8d08d 0%, #8bc34a 100%);
+  color: white;
+  border: none;
+  border-radius: 12rpx;
+  padding: 28rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  margin-bottom: 20rpx;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 15rpx;
+  margin-top: 20rpx;
+}
+
+.btn-secondary {
+  flex: 1;
+  background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
+  color: white;
+  border: none;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  font-size: 28rpx;
+}
+
+.btn-danger {
+  flex: 1;
+  background: linear-gradient(135deg, #ef5350 0%, #e53935 100%);
+  color: white;
+  border: none;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  font-size: 28rpx;
+}
+
+/* 提示卡片 */
+.tips-card {
+  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+  border-left: 4rpx solid #ab47bc;
+}
+
+.tips-text {
+  font-size: 26rpx;
+  color: #6a1b9a;
+  line-height: 1.8;
+  white-space: pre-line;
+}

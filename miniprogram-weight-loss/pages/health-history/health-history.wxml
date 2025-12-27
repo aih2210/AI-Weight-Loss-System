@@ -1,0 +1,118 @@
+<!--pages/health-history/health-history.wxml-->
+<view class="container">
+  <!-- 标签页 -->
+  <view class="tabs">
+    <view 
+      class="tab-item {{currentTab === index ? 'active' : ''}}" 
+      wx:for="{{tabs}}" 
+      wx:key="index"
+      bindtap="switchTab"
+      data-index="{{index}}">
+      {{item}}
+    </view>
+  </view>
+
+  <!-- 日期范围选择 -->
+  <view class="date-range">
+    <view 
+      class="range-item {{dateRange === 7 ? 'active' : ''}}" 
+      bindtap="changeDateRange"
+      data-range="7">
+      7天
+    </view>
+    <view 
+      class="range-item {{dateRange === 30 ? 'active' : ''}}" 
+      bindtap="changeDateRange"
+      data-range="30">
+      30天
+    </view>
+    <view 
+      class="range-item {{dateRange === 90 ? 'active' : ''}}" 
+      bindtap="changeDateRange"
+      data-range="90">
+      90天
+    </view>
+  </view>
+
+  <!-- 步数历史 -->
+  <view wx:if="{{currentTab === 0}}" class="history-content">
+    <view class="card">
+      <view class="card-title">📊 步数趋势</view>
+      <view class="history-list">
+        <view class="history-item {{item.status}}" wx:for="{{stepsHistory}}" wx:key="date">
+          <view class="item-date">{{item.date}}</view>
+          <view class="item-bar-container">
+            <view class="item-bar" style="width: {{item.progress}}%"></view>
+          </view>
+          <view class="item-value">{{item.value}} 步</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="card stats-card">
+      <view class="stat-row">
+        <view class="stat-label">平均步数</view>
+        <view class="stat-value">7,856 步</view>
+      </view>
+      <view class="stat-row">
+        <view class="stat-label">最高记录</view>
+        <view class="stat-value">12,345 步</view>
+      </view>
+      <view class="stat-row">
+        <view class="stat-label">达标天数</view>
+        <view class="stat-value">5 / 7 天</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 心率历史 -->
+  <view wx:if="{{currentTab === 1}}" class="history-content">
+    <view class="card">
+      <view class="card-title">❤️ 心率记录</view>
+      <view class="history-list">
+        <view class="history-item {{item.status}}" wx:for="{{heartRateHistory}}" wx:key="date">
+          <view class="item-date">{{item.date}}</view>
+          <view class="item-value-large">{{item.value}} {{item.unit}}</view>
+          <view class="item-status">{{item.status === 'success' ? '正常' : '偏高'}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 睡眠历史 -->
+  <view wx:if="{{currentTab === 2}}" class="history-content">
+    <view class="card">
+      <view class="card-title">😴 睡眠记录</view>
+      <view class="history-list">
+        <view class="history-item {{item.status}}" wx:for="{{sleepHistory}}" wx:key="date">
+          <view class="item-date">{{item.date}}</view>
+          <view class="item-value-large">{{item.value}} {{item.unit}}</view>
+          <view class="item-quality">质量：{{item.quality}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 体重历史 -->
+  <view wx:if="{{currentTab === 3}}" class="history-content">
+    <view class="card">
+      <view class="card-title">⚖️ 体重变化</view>
+      <view class="history-list">
+        <view class="history-item" wx:for="{{weightHistory}}" wx:key="timestamp">
+          <view class="item-date">{{item.date}}</view>
+          <view class="item-value-large">{{item.weight}} kg</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-buttons">
+    <button class="action-btn secondary" bindtap="exportData">
+      📤 导出数据
+    </button>
+    <button class="action-btn primary" bindtap="shareData">
+      📊 分享报告
+    </button>
+  </view>
+</view>
